@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Account Created</title>
+
+    <style>
+
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            background:#f5f5f5;
+            margin:40px;
+        }
+
+        .card{
+            background:white;
+            width:800px;
+            margin:auto;
+            padding:30px;
+            border-radius:10px;
+            box-shadow:0 0 15px rgba(0,0,0,.15);
+        }
+
+        h1{
+            color:#1b5e20;
+        }
+
+        h2{
+            margin-top:30px;
+            border-bottom:2px solid #ddd;
+            padding-bottom:5px;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        td{
+            padding:10px;
+            border-bottom:1px solid #eee;
+        }
+
+        .password{
+
+            font-size:28px;
+            color:#c62828;
+            font-weight:bold;
+
+        }
+
+        .warning{
+
+            margin-top:30px;
+            background:#fff8e1;
+            border-left:6px solid orange;
+            padding:15px;
+
+        }
+
+        .buttons{
+
+            margin-top:30px;
+
+        }
+
+        .btn{
+
+            text-decoration:none;
+            padding:12px 18px;
+            background:#1565c0;
+            color:white;
+            border-radius:5px;
+            margin-right:10px;
+
+        }
+
+        .print{
+            background:#2e7d32;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>Student Account Created Successfully</h1>
+
+<h2>Student Information</h2>
+
+<table>
+
+<tr>
+<td><strong>Name</strong></td>
+<td>{{ student.first_name }} {{ student.last_name }}</td>
+</tr>
+
+<tr>
+<td><strong>Admission Number</strong></td>
+<td>{{ student.admission_number }}</td>
+</tr>
+
+<tr>
+<td><strong>Programme</strong></td>
+<td>{{ student.programme }}</td>
+</tr>
+
+<tr>
+<td><strong>Department</strong></td>
+<td>{{ student.department }}</td>
+</tr>
+
+<tr>
+<td><strong>Year of Study</strong></td>
+<td>{{ student.year_of_study }}</td>
+</tr>
+
+<tr>
+<td><strong>Email</strong></td>
+<td>{{ user.email }}</td>
+</tr>
+
+<tr>
+<td><strong>Phone Number</strong></td>
+<td>{{ student.phone_number }}</td>
+</tr>
+
+</table>
+
+<h2>Login Credentials</h2>
+
+<table>
+
+<tr>
+<td><strong>Username</strong></td>
+<td>{{ user.username }}</td>
+</tr>
+
+<tr>
+<td><strong>Temporary Password</strong></td>
+<td class="password">{{ temporary_password }}</td>
+</tr>
+
+<tr>
+<td><strong>Role</strong></td>
+<td>{{ user.role }}</td>
+</tr>
+
+<tr>
+<td><strong>Status</strong></td>
+<td>{{ student.status }}</td>
+</tr>
+
+</table>
+
+<div class="warning">
+
+<strong>Important</strong>
+
+<ul>
+
+<li>This password is shown only once.</li>
+
+<li>Please communicate it securely to the student.</li>
+
+<li>The student should change the password after the first login.</li>
+
+</ul>
+
+</div>
+
+<div class="buttons">
+
+<a href="{% url 'register_student' %}" class="btn">
+Register Another Student
+</a>
+
+<a href="#" onclick="window.print();" class="btn print">
+Print Credentials
+</a>
+
+<a href="{% url 'login' %}" class="btn">
+    Login
+</a>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
