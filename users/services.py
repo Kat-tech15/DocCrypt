@@ -33,6 +33,7 @@ class AccountService:
         )
 
         return {
+            "user": user,
             "student": student,
             "temporary_password": temporary_password,
         }

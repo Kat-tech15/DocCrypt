@@ -1,0 +1,27 @@
+{% extends "users/base.html" %}
+
+{% block title %}
+Upload Successful
+{% endblock %}
+
+{% block content %}
+
+<div class=card>
+
+<h2>Document Uploaded Successfully</h2>
+
+<p><strong>Title:</strong> {{ document.title }}</p>
+
+<p><strong>Student:</strong> {{ document.student }}</p>
+
+<p><strong>Status:</strong> {{ document.status }}</p>
+
+<p>The document has been uploaded and sent for encryption.</p>
+
+<a href={% url "upload_document" %}>
+    Upload Another Document
+</a>
+
+</div>
+
+{% endblock %}
