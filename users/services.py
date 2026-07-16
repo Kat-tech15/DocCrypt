@@ -2,6 +2,8 @@ from django.db import transaction
 from .models import CustomUser
 from student.models import Student
 from django.utils.crypto import get_random_string
+from django.core.exceptions import ValidationError
+
 
 class AccountService:
     @staticmethod
@@ -13,7 +15,14 @@ class AccountService:
             allowed_chars="abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789"
 
         )
+        if CustomUser.objects.filter(
+            username=data["admission_number"]
+        ).exists():
+            raise ValidationError("A student with this admission number already exists.")
 
+        if CustomUser.objects.filter(email=data["email"]).exists():
+            raise ValidationError("A student with this email already exists.")
+        
         user =  CustomUser.objects.create_user(
             username=data["admission_number"],
             email=data["email"],

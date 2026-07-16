@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import login_required
-
+from django.core.exceptions import ValidationError
 from .forms import StudentRegistrationForm, LoginForm, ChangePasswordForm
 from .services import AccountService
 
@@ -14,18 +14,21 @@ def register_student(request):
         form = StudentRegistrationForm(request.POST)
 
         if form.is_valid():
-
-            result = AccountService.create_student_account(
-                form.cleaned_data
-            )
+            try:
+                result = AccountService.create_student_account(
+                    form.cleaned_data
+                )
+                
+                context = {
+                    "student": result["student"],
+                    "user": result["user"],
+                    "temporary_password": result["temporary_password"],
+                }
+        
+                return render(request, "users/account_created.html", context)
             
-            context = {
-                "student": result["student"],
-                "user": result["user"],
-                "temporary_password": result["temporary_password"],
-            }
-    
-            return render(request, "users/account_created.html", context)
+            except ValidationError as e:
+                form.add_error(None, e.message)
 
     else:
 
