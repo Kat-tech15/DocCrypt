@@ -28,9 +28,9 @@ My Documents
 <td>{{ document.uploaded_at }}</td>
 
 <td>
-
-Coming Soon
-
+    <a href="{% url 'download_document' document.id %}">
+        Download
+    </a>
 </td>
 
 </tr>
