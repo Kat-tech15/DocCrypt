@@ -1,0 +1,72 @@
+{% extends "users/base.html" %}
+
+{% block title %}
+Administrator Dashboard
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Administrator Dashboard</h2>
+
+    <p>Welcome, {{ request.user.username }}</p>
+
+    <hr>
+
+    <h3>Student Management</h3>
+
+    <button>
+        <a href="{% url 'register_student' %}">
+            Register Student
+        </a>
+    </button>
+
+    <hr>
+
+    <h3>Document Management</h3>
+
+    <button>
+        <a href="{% url 'upload_document' %}">
+            Upload Document
+        </a>
+    </button>
+</div>
+<style>
+    .container{
+        width: 50%;
+        margin: auto;
+        padding: 30px;
+        justify-content: center;
+    }
+    .card{
+        padding: 8px;
+        padding: 25px;
+        background: white;
+        box-sizing: border-box;
+        border-radius: 8px;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    }
+    h2{
+        color: rgb(59, 145, 221);
+        text-align: center;
+        font-style: oblique;
+    }
+    button{
+        width: 50%;
+        text-align: center;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        cursor: pointer;
+        background-color: rgba(109, 166, 206);
+    }
+    button a{
+        color: white;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    button:hover{
+        background-color: rgb(0, 140, 255);
+    }
+
+</style>
+{% endblock %}

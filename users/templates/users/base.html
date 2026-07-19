@@ -14,44 +14,31 @@
         }
 
         header{
-            background:#0d6efd;
+            background:#4a84db;
             color:white;
             padding:18px;
         }
+        span{
+            color: red;
 
-        .container{
-            width:85%;
-            margin:auto;
-            padding:30px;
         }
-
-        .card{
-            background:white;
-            padding:25px;
-            border-radius:8px;
-            box-shadow:0 0 12px rgba(0,0,0,.1);
-        }
-
-        input{
-            width:100%;
-            padding:10px;
-            margin:8px 0 18px 0;
-            box-sizing:border-box;
-        }
-
-        button{
+        .btn{
             background:#0d6efd;
             color:white;
             border:none;
             padding:12px 20px;
             cursor:pointer;
             border-radius:5px;
+            margin: 5px 50%;
         }
 
-        button:hover{
+        .btn:hover{
             background:#084298;
         }
-
+        .btn a{
+            text-decoration: none;
+            color: white;
+        }
     </style>
 
 </head>
@@ -59,15 +46,24 @@
 <body>
 
 <header>
-
-<h2>DocCrypt - Student Document Encryption System</h2>
-
+            
 </header>
 
 <div class="container">
 
 {% block content %}
-
+<section class="home">
+    <p>Welcome to the Doc <span>Crypt</span></p>
+    <p>We make your documents secure by encrypting them.</p>
+</section>
+    <div >
+        <button class="btn">
+            <a href="{% url 'upload_document' %}">Upload</a>
+        </button>
+        <button class="btn">
+            <a href="{% url 'my_documents' %}">View</a>
+        </button>
+    </div>
 {% endblock %}
 
 </div>
