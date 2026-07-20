@@ -17,6 +17,10 @@ Student Dashboard
             My Documents
         </a>
     </p>
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
 </div>
 <style>
     .container{

@@ -1,6 +1,7 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
+from django.views.decorators.http import require_POST
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, render
 
@@ -45,6 +46,8 @@ def register_student(request):
 def login_view(request):
     if request.user.is_authenticated:
         return redirect("dashboard")
+    
+    next_url = request.GET.get("next")
 
     form = LoginForm(request.POST or None)
 
@@ -59,15 +62,15 @@ def login_view(request):
         if user:
             login(request, user)
 
-            if user.must_change_password:
+            if user.is_student and user.must_change_password:
                 return redirect("change_password")
 
+            if next_url:
+                return redirect(next_url)
+            
             return redirect("dashboard")
 
-        form.add_error(
-            None,
-            "Invalid username or password.",
-        )
+        form.add_error(None, "Invalid username or password.")
 
     return render(request, "users/login.html", {"form": form})
 
@@ -109,4 +112,10 @@ def dashboard(request):
     if request.user.is_student:
         return render(request, "users/student_dashboard.html")
     
+    return redirect("login")
+
+@login_required
+@require_POST
+def logout_view(request):
+    logout(request)
     return redirect("login")

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
+from .managers import CustomUserManager
 
 class CustomUser(AbstractUser):
     """
@@ -14,6 +14,7 @@ class CustomUser(AbstractUser):
 
     role = models.CharField(max_length=20, choices=Role.choices, default=Role.STUDENT)
     must_change_password = models.BooleanField(default=True)
+    objects = CustomUserManager()
 
     @property
     def is_student(self):
@@ -21,7 +22,7 @@ class CustomUser(AbstractUser):
 
     @property
     def is_admin(self):
-        return self.role == self.Role.ADMIN
+        return self.role == self.Role.ADMIN or self.is_superuser
 
     def __str__(self):
         return f"{self.username} ({self.role})"
