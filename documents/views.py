@@ -3,7 +3,7 @@ import os
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
 from .forms import DocumentUploadForm
@@ -139,3 +139,14 @@ def download_document(request, document_id):
             "Unable to download the requested document.",
         )
         return redirect("my_documents")
+    
+@login_required
+def document_list(request):
+    if not request.user.is_admin:
+        return HttpResponseForbidden(request, "This page is only accessible to administrators.")
+    
+    documents = Document.objects.select_related("student").all()
+
+    context = {"documents": documents}
+
+    return render(request, "documents/documents_list.html", context)

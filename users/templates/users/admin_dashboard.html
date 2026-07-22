@@ -20,6 +20,9 @@ Administrator Dashboard
         </a>
     </button>
 
+    {% for student in students %}
+        <td>{{ student.count }}</td>
+    {% endfor %}
     <hr>
 
     <h3>Document Management</h3>
@@ -33,6 +36,16 @@ Administrator Dashboard
         {% csrf_token %}
         <button type="submit">Logout</button>
     </form>
+    <button>
+        <a href="{% url 'student_list' %}">
+            View Students
+        </a>
+    </button>
+    <button>
+        <a href="{% url 'document_list' %}">
+            View Documents
+        </a>
+    </button>
 </div>
 <style>
     .container{
