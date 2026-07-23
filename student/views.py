@@ -1,7 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from .models import Student
+from django.contrib import messages
+from .forms import StudentUpdateForm
 
 @login_required
 def students_list(request):
@@ -31,4 +33,24 @@ def student_detail(request, student_id):
     }
 
     return render(request, "students/student_detail.html", context)
-    
+
+@login_required
+def edit_student(request, student_id):
+    if not request.user.is_admin:
+        return HttpResponseForbidden(request, "You are not authorized to access this page.")
+
+    student = get_object_or_404(Student, id=student_id)
+
+    if request.method == "POST":
+        form = StudentUpdateForm(request.POST, instance=student)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Student information updated successfully.")
+
+            return redirect("student_detail", student_id=student.id)
+
+    else:
+        form = StudentUpdateForm(instance=student)
+
+    return render(request, "students/edit_student.html", {"form": form, "student": student})

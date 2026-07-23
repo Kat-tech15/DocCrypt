@@ -14,12 +14,6 @@ Administrator Dashboard
 
     <h3>Student Management</h3>
 
-    <button>
-        <a href="{% url 'register_student' %}">
-            Register Student
-        </a>
-    </button>
-
     {% for student in students %}
         <td>{{ student.count }}</td>
     {% endfor %}
@@ -27,25 +21,6 @@ Administrator Dashboard
 
     <h3>Document Management</h3>
 
-    <button>
-        <a href="{% url 'upload_document' %}">
-            Upload Document
-        </a>
-    </button>
-    <form method="post" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-    </form>
-    <button>
-        <a href="{% url 'student_list' %}">
-            View Students
-        </a>
-    </button>
-    <button>
-        <a href="{% url 'document_list' %}">
-            View Documents
-        </a>
-    </button>
 </div>
 <style>
     .container{
@@ -67,23 +42,5 @@ Administrator Dashboard
         text-align: center;
         font-style: oblique;
     }
-    button{
-        width: 50%;
-        text-align: center;
-        border: none;
-        border-radius: 5px;
-        padding: 10px;
-        cursor: pointer;
-        background-color: rgba(109, 166, 206);
-    }
-    button a{
-        color: white;
-        font-weight: bold;
-        text-decoration: none;
-    }
-    button:hover{
-        background-color: rgb(0, 140, 255);
-    }
-
 </style>
 {% endblock %}

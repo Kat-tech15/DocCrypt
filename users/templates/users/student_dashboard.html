@@ -11,16 +11,6 @@ Student Dashboard
     <p>Welcome, {{ request.user.username }}</p>
 
     <hr>
-
-    <p class="button">
-        <a href="{% url 'my_documents' %}">
-            My Documents
-        </a>
-    </p>
-    <form method="post" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-    </form>
 </div>
 <style>
     .container{
@@ -39,24 +29,6 @@ Student Dashboard
         padding: 25px;
         border-radius: 8px;
         box-shadow: 0 0 12px rgba(0,0,0,0.1);
-    }
-    .button{
-        cursor: pointer;
-        width: 100%;
-        text-align: center;
-        background-color: rgba(109, 166, 206);
-        border-radius: 5px;
-        border: none;
-        padding: 10px;
-        
-    }
-    .button a{
-        color: white;
-        text-decoration: none;
-        font-weight: bold;
-    }
-    button:hover{
-        background-color: rgb(0, 140, 255);
     }
 </style>
 {% endblock %}

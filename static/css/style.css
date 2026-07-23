@@ -308,7 +308,16 @@ h2{
     margin:20px auto;
 
 }
+.logout-form{
+    display:inline;
+    margin:0;
+}
 
+.logout-form button{
+    border:none;
+    cursor:pointer;
+    font:inherit;
+}
 .alert{
 
     padding:15px;
