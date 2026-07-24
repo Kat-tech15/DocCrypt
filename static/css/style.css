@@ -556,3 +556,116 @@ footer{
 
     font-weight:500;
 }
+/* ===========================
+   AUTHENTICATION
+=========================== */
+
+.auth-container{
+
+    min-height:80vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:40px 20px;
+
+}
+
+.auth-card{
+
+    width:100%;
+
+    max-width:500px;
+
+    background:#fff;
+
+    border-radius:12px;
+
+    padding:35px;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.12);
+
+}
+
+.auth-card h2{
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+}
+/* ===========================
+   FORMS
+=========================== */
+
+form{
+
+    width:100%;
+
+}
+
+form p{
+
+    margin-bottom:18px;
+
+}
+
+label{
+
+    display:block;
+
+    margin-bottom:6px;
+
+    font-weight:600;
+    color: cadetblue;
+    font-family:'Courier New', Courier, monospace;
+
+}
+
+input,
+select,
+textarea{
+
+    width:100%;
+
+    padding:12px;
+
+    border:1px solid #2fd5ff;
+
+    border-radius:8px;
+
+    font-size:15px;
+
+    box-sizing:border-box;
+
+    transition:.3s;
+
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+
+    border-color:#2fd5ff;
+
+    outline:none;
+
+    box-shadow:0 0 5px rgba(37,99,235,.25);
+
+}
+.form-actions{
+
+    margin-top:25px;
+
+}
+
+.form-actions .btn{
+
+    width:100%;
+
+    text-align:center;
+
+}

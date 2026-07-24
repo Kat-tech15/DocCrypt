@@ -5,97 +5,138 @@ Documents
 {% endblock %}
 
 {% block content %}
-<div class="card">
-<h2>Uploaded Documents</h2>
 
-<table border="1" cellpadding="10">
+<div class="page-header">
 
-    <thead>
+    <div>
 
-        <tr>
+        <h1>Uploaded Documents</h1>
 
-            <th>Owner</th>
+        <p>
+            Manage all uploaded student documents.
+        </p>
 
-            <th>Title</th>
+    </div>
 
-            <th>Status</th>
+    <a
+        href="{% url 'upload_document' %}"
+        class="btn btn-success">
 
-            <th>Upload Time</th>
+        Upload Document
 
-            <th>Actions</th>
+    </a>
 
-        </tr>
-
-    </thead>
-
-    <tbody>
-
-    {% for document in documents %}
-
-        <tr>
-
-            <td>{{ document.student.admission_number }}</td>
-
-            <td>{{ document.title }}</td>
-
-            <td>{{ document.status }}</td>
-
-            <td>{{ document.uploaded_at }}</td>
-
-            <td>
-
-                <a href="#">View</a>
-
-                |
-
-                <a href="#">Edit</a>
-
-            </td>
-
-        </tr>
-
-    {% empty %}
-
-        <tr>
-
-            <td colspan="5">
-
-                No documents uploaded.
-
-            </td>
-
-        </tr>
-
-    {% endfor %}
-
-    </tbody>
-
-</table>
 </div>
-<style>
-    .container{
-        width: 80%;
-        padding: 30px;
-        margin: auto;
-        justify-content: center;
-    }
-    h2{
-        font-style: oblique;
-        text-align: center;
-        color: rgb(109, 166, 206);
-    }
-    .card{
-        padding: 25px;
-        border-radius: 8px;
-        background: white;
-        box-shadow: 0 0 12px rgba(0, 0 , 0 ,0.1);
-    }
-    table{
-        width: 100%;
-    }
-    table td{
-        color: cadetblue;
-        font-family: 'Courier New', Courier, monospace;
-    }
-</style>
+
+
+<div class="card">
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Student</th>
+
+                <th>Title</th>
+
+                <th>Status</th>
+
+                <th>Uploaded</th>
+
+                <th>Actions</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% for document in documents %}
+
+            <tr>
+
+                <td>
+
+                    {{ document.student.admission_number }}
+
+                </td>
+
+                <td>
+
+                    {{ document.title }}
+
+                </td>
+
+                <td>
+
+                    {% if document.status == "ENCRYPTED" %}
+
+                        <span class="badge badge-success">
+
+                            {{ document.get_status_display }}
+
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge badge-warning">
+
+                            {{ document.get_status_display }}
+
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+                <td>
+
+                    {{ document.uploaded_at|date:"d M Y H:i" }}
+
+                </td>
+
+                <td>
+
+                    <a
+                        href="{% url 'document_detail' document.id %}"
+                        class="btn btn-primary btn-small">
+
+                        View
+
+                    </a>
+
+                    <a
+                        href="{% url 'edit_document' document.id %}"
+                        class="btn btn-success btn-small">
+
+                        Edit
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+        {% empty %}
+
+            <tr>
+
+                <td colspan="5">
+
+                    No uploaded documents.
+
+                </td>
+
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
 {% endblock %}

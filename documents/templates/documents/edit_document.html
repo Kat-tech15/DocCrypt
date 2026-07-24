@@ -1,0 +1,137 @@
+```django
+{% extends "users/base.html" %}
+
+{% block title %}
+Edit Document
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h1>Edit Document</h1>
+
+        <p>
+            Update the document information below.
+        </p>
+
+    </div>
+
+    <a
+        href="{% url 'document_detail' document.id %}"
+        class="btn btn-secondary">
+
+        ← Back
+
+    </a>
+
+</div>
+
+
+<div class="card">
+
+    <h2 class="card-title">
+
+        Current Document
+
+    </h2>
+
+    <div class="info-grid">
+
+        <div class="info-label">
+            Student
+        </div>
+
+        <div>
+
+            {{ document.student.full_name }}
+
+            ({{ document.student.admission_number }})
+
+        </div>
+
+        <div class="info-label">
+            Current File
+        </div>
+
+        <div>
+
+            {{ document.original_file.name }}
+
+        </div>
+
+        <div class="info-label">
+            Status
+        </div>
+
+        <div>
+
+            {% if document.status == "ENCRYPTED" %}
+
+                <span class="badge badge-success">
+
+                    {{ document.get_status_display }}
+
+                </span>
+
+            {% else %}
+
+                <span class="badge badge-warning">
+
+                    {{ document.get_status_display }}
+
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="card">
+
+    <h2 class="card-title">
+
+        Edit Details
+
+    </h2>
+
+    <form
+        method="post"
+        enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <div class="card-actions">
+
+            <button
+                type="submit"
+                class="btn btn-success">
+
+                Save Changes
+
+            </button>
+
+            <a
+                href="{% url 'document_detail' document.id %}"
+                class="btn btn-secondary">
+
+                Cancel
+
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
+```

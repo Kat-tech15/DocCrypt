@@ -2,9 +2,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.views.decorators.http import require_POST
-from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, render
 from documents.models import Document
+from student.models import Student
 
 from .forms import (
     ChangePasswordForm,
@@ -108,7 +108,26 @@ def change_password(request):
 @login_required
 def dashboard(request):
     if request.user.is_admin:
-        return render(request, "users/admin_dashboard.html")
+        
+        total_students = Student.objects.count()
+
+        active_students = Student.objects.filter(status=Student.Status.ACTIVE).count()
+
+        total_documents = Document.objects.count()
+        encrypted_documents = Document.objects.filter(status=Document.Status.ENCRYPTED).count()
+        recent_documents = Document.objects.select_related("student").order_by("-uploaded_at")[:5]
+        recent_students = Student.objects.order_by("-id")[:5]
+
+        context = {
+            "total_students": total_students,
+            "active_students": active_students,
+            "total_documents": total_documents,
+            "encrypted_documents": encrypted_documents,
+            "recent_documents": recent_documents,
+            "recent_students": recent_students,
+
+        }
+        return render(request, "users/admin_dashboard.html", context)
     
     if request.user.is_student:
 

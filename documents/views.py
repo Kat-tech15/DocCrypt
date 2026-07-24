@@ -150,3 +150,33 @@ def document_list(request):
     context = {"documents": documents}
 
     return render(request, "documents/documents_list.html", context)
+
+@login_required
+def document_detail(request, document_id):
+
+    document = get_object_or_404(Document, id=document_id)
+
+    context = {"document": document}
+
+    return render(request, "documents/document_detail.html", context)
+
+@login_required
+def edit_document(request, document_id):
+
+    document = get_object_or_404(Document, id=document_id)
+
+    form = DocumentUploadForm(
+        request.POST or None, 
+        request.FILES or None,
+        instance=document,
+    )
+
+    if request.method == "POST" and form.is_valid():
+
+        form.save()
+
+        messages.success("Document updated successfully.")
+
+        return redirect("document_detail", document_id=document.id)
+
+    return render(request, "documents/edit_document.html", {"form": form, "document": document})
