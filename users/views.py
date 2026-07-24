@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.views.decorators.http import require_POST
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, render
+from documents.models import Document
 
 from .forms import (
     ChangePasswordForm,
@@ -110,7 +111,23 @@ def dashboard(request):
         return render(request, "users/admin_dashboard.html")
     
     if request.user.is_student:
-        return render(request, "users/student_dashboard.html")
+
+        student =request.user.student
+        documents = (Document.objects.filter(student=student).order_by("-uploaded_at"))  
+
+        encrypted_documents = documents.filter(status=Document.Status.ENCRYPTED)
+                     
+        
+
+        context = {
+            "student": student,
+            "documents": documents[:5],
+            "document_count": documents.count(),
+            "encrypted_count": encrypted_documents.count(),
+        }
+
+        return render(request, "users/student_dashboard.html", context)
+
     
     return redirect("login")
 
