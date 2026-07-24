@@ -5,78 +5,64 @@ My Documents
 {% endblock %}
 
 {% block content %}
+<div class="page-header">
+    <div>
+        <h2>My Documents</h2>
+    </div>
+</div>  
+
 <div class="card">
-    <h2>My Documents</h2>
 
-    <table border="1">
+    <table>
 
-    <tr>
-        <th>No</th>
-        <th>Title</th>
-        <th>Status</th>
-        <th>Upload Time</th>
-        <th>Action</th>
-    </tr>
+        <thead>
 
-    {% for document in documents %}
+            <tr>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Upload Time</th>
+                <th>Action</th>
+            </tr>
 
-    <tr>
-    <td>{{ document.count }}</td>
-    <td>{{ document.title }}</td>
+        </thead>
 
-    <td>{{ document.status.lower }}</td>
 
-    <td>{{ document.uploaded_at }}</td>
+        <tbody>
+            {% for document in documents %}
 
-    <td class="btn">
-        <a href="{% url 'download_document' document.id %}">
-            Download
-        </a>
-    </td>
+            <tr>
+                <td>{{ document.title }}</td>
 
-    </tr>
+                <td>{{ document.status.lower }}</td>
 
-    {% empty %}
+                <td>{{ document.uploaded_at }}</td>
 
-    <tr>
+                <td >
 
-    <td colspan="4">
+                    <a href="{% url 'download_document' document.id %}" 
+                     class="btn btn-primary btn-small">
+                        Download
+                    </a>
+                
+                </td>
 
-    No documents uploaded.
+            </tr>
 
-    </td>
+            {% empty %}
 
-    </tr>
+            <tr>
 
-    {% endfor %}
+                <td colspan="4">
+
+                No documents uploaded.
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+        </tbody>
 
     </table>
 </div>
-<style>
-    .container{
-        width: 80%;
-        padding: 30px;
-        margin: auto;
-        justify-content: center;
-    }
-    h2{
-        font-style: oblique;
-        text-align: center;
-        color: rgb(109, 166, 206);
-    }
-    .card{
-        padding: 25px;
-        border-radius: 8px;
-        background: white;
-        box-shadow: 0 0 12px rgba(0, 0 , 0 ,0.1);
-    }
-    table{
-        width: 100%;
-    }
-    table td{
-        color: cadetblue;
-        font-family: 'Courier New', Courier, monospace;
-    }
-
-</style>
 {% endblock %}

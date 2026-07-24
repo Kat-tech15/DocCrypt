@@ -6,7 +6,7 @@ from django.db import transaction
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
-from .forms import DocumentUploadForm
+from .forms import DocumentUploadForm, DocumentEditForm
 from .models import Document
 from .pdf_services import PDFService
 from .services import EncryptionService
@@ -165,7 +165,7 @@ def edit_document(request, document_id):
 
     document = get_object_or_404(Document, id=document_id)
 
-    form = DocumentUploadForm(
+    form = DocumentEditForm(
         request.POST or None, 
         request.FILES or None,
         instance=document,
@@ -175,7 +175,7 @@ def edit_document(request, document_id):
 
         form.save()
 
-        messages.success("Document updated successfully.")
+        messages.success(request, "Document updated successfully.")
 
         return redirect("document_detail", document_id=document.id)
 

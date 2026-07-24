@@ -78,7 +78,7 @@ def login_view(request):
 
 @login_required
 def change_password(request):
-    if not request.user.must_change_password:
+    if  not request.user.must_change_password:
         return redirect("dashboard")
 
     form = ChangePasswordForm(request.POST or None)
@@ -112,7 +112,8 @@ def dashboard(request):
         total_students = Student.objects.count()
 
         active_students = Student.objects.filter(status=Student.Status.ACTIVE).count()
-
+        deferred_students = Student.objects.filter(status =Student.Status.DEFERRED).count()
+        graduated_students = Student.objects.filter(status=Student.Status.GRADUATED)
         total_documents = Document.objects.count()
         encrypted_documents = Document.objects.filter(status=Document.Status.ENCRYPTED).count()
         recent_documents = Document.objects.select_related("student").order_by("-uploaded_at")[:5]
@@ -121,6 +122,8 @@ def dashboard(request):
         context = {
             "total_students": total_students,
             "active_students": active_students,
+            "deferred_students": deferred_students,
+            "graduated_students": graduated_students,
             "total_documents": total_documents,
             "encrypted_documents": encrypted_documents,
             "recent_documents": recent_documents,
@@ -133,7 +136,6 @@ def dashboard(request):
 
         student =request.user.student
         documents = (Document.objects.filter(student=student).order_by("-uploaded_at"))  
-
         encrypted_documents = documents.filter(status=Document.Status.ENCRYPTED)
                      
         
