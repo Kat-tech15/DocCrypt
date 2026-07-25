@@ -210,7 +210,7 @@ Student Profile
 
         <a href="{% url 'edit_student' student.id %}" class="btn btn-primary">Edit Student</a>
 
-        <a href="{% url 'upload_document' %}" class="btn btn-success">Upload Document</a>
+        <a href="{% url 'upload_document_student' student.id %}" class="btn btn-success">Upload Document</a>
 
         {% if student.status == student.Status.ACTIVE %}
 

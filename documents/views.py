@@ -12,60 +12,104 @@ from .pdf_services import PDFService
 from .services import EncryptionService
 from django.db.models import Q
 from django.core.paginator import Paginator
+from student.models import Student
 
 
 @require_http_methods(["GET", "POST"])
 @login_required
-def upload_document(request):
+def upload_document(request, student_id=None):
     """
     Upload and encrypt a PDF document.
     """
-    if not request.user.is_superuser:
-        return HttpResponse("Only Administrators are allowed to upload documents.", status=403)
-    
-    if request.method == "POST":
-        form = DocumentUploadForm(
-            request.POST,
-            request.FILES,
+
+    if not request.user.is_admin:
+        return HttpResponse(
+            "Only administrators are allowed to upload documents.",
+            status=403,
         )
 
-        if form.is_valid():
-            try:
-                with transaction.atomic():
-                    existing_document = Document.objects.filter(
-                        student=form.cleaned_data["student"],
-                        title=form.cleaned_data["title"],
-                    ).first()
+    # If the upload originated from a student's profile,
+    # retrieve that student.
+    student = None
 
-                    if existing_document:
-                        if existing_document.original_file:
-                            existing_document.original_file.delete(save=False)
+    if student_id:
+        student = get_object_or_404(Student, id=student_id)
 
-                        if existing_document.encrypted_file:
-                            existing_document.encrypted_file.delete(save=False)
-                        
-                        existing_document.delete()
+    # Build the form for both GET and POST requests.
+    form = DocumentUploadForm(
+        request.POST or None,
+        request.FILES or None,
+        initial={"student": student} if student else None,
+    )
 
-                    document = form.save(commit=False)
-                    document.uploaded_by = request.user
-                    document.save()
+    # Prevent changing the student when uploading
+    # from the student's profile.
+    if student:
+        form.fields["student"].disabled = True
 
-                    EncryptionService.encrypt_document(document)
+    if request.method == "POST" and form.is_valid():
 
-                messages.success(request, "Document uploaded successfully.")
-                return redirect("dashboard")
+        try:
 
-            except Exception as e:
-                print("UPLOAD ERROR")
-                print(e)
-                print(type(e))
-                raise
-    else:
-        form = DocumentUploadForm()
+            with transaction.atomic():
 
-    return render(request, "documents/upload_document.html", {"form": form})
+                # Determine which student owns the document.
+                selected_student = student or form.cleaned_data["student"]
 
+                # Replace an existing document with the same title.
+                existing_document = Document.objects.filter(
+                    student=selected_student,
+                    title=form.cleaned_data["title"],
+                ).first()
 
+                if existing_document:
+
+                    if existing_document.original_file:
+                        existing_document.original_file.delete(save=False)
+
+                    if existing_document.encrypted_file:
+                        existing_document.encrypted_file.delete(save=False)
+
+                    existing_document.delete()
+
+                # Save the new document.
+                document = form.save(commit=False)
+
+                document.student = selected_student
+                document.uploaded_by = request.user
+
+                document.save()
+
+                # Encrypt the uploaded document.
+                EncryptionService.encrypt_document(document)
+
+            messages.success(
+                request,
+                "Document uploaded and encrypted successfully."
+            )
+
+            return redirect(
+                "student_detail",
+                student_id=selected_student.id,
+            )
+
+        except Exception:
+
+            messages.error(
+                request,
+                "An unexpected error occurred while uploading the document."
+            )
+
+            raise
+
+    return render(
+        request,
+        "documents/upload_document.html",
+        {
+            "form": form,
+            "student": student,
+        },
+    )
 @require_http_methods(["GET"])
 @login_required
 def my_documents(request):
