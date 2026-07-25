@@ -12,7 +12,9 @@ Edit Student
 
     <p>
         {{ student.full_name }}
+
         <br>
+
         {{ student.admission_number }}
     </p>
 
@@ -22,21 +24,9 @@ Edit Student
 
         {{ form.as_p }}
 
-        <button
-            type="submit"
-            class="btn btn-success">
+        <button type="submit" class="btn btn-success">Update</button>
 
-            Save Changes
-
-        </button>
-
-        <a
-            href="{% url 'student_detail' student.id %}"
-            class="btn btn-danger">
-
-            Cancel
-
-        </a>
+        <a href="{% url 'student_detail' student.id %}" class="btn btn-danger">Cancel</a>
 
     </form>
 

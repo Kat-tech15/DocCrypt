@@ -1,4 +1,3 @@
-```django
 {% extends "users/base.html" %}
 
 {% block title %}
@@ -13,33 +12,20 @@ Edit Document
 
         <h1>Edit Document</h1>
 
-
     </div>
 
-    <a
-        href="{% url 'document_detail' document.id %}"
-        class="btn btn-secondary">
-
-        ← Back
-
-    </a>
+    <a href="{% url 'document_detail' document.id %}" class="btn btn-secondary">← Back</a>
 
 </div>
 
 
 <div class="card">
 
-    <h2 class="card-title">
-
-        Current Document
-
-    </h2>
+    <h2 class="card-title">Current Document</h2>
 
     <div class="info-grid">
 
-        <div class="info-label">
-            Student
-        </div>
+        <div class="info-label">Student</div>
 
         <div>
 
@@ -49,9 +35,7 @@ Edit Document
 
         </div>
 
-        <div class="info-label">
-            Current File
-        </div>
+        <div class="info-label">Current File</div>
 
         <div>
 
@@ -59,9 +43,7 @@ Edit Document
 
         </div>
 
-        <div class="info-label">
-            Status
-        </div>
+        <div class="info-label">Status</div>
 
         <div>
 
@@ -92,11 +74,7 @@ Edit Document
 
 <div class="card">
 
-    <h2 class="card-title">
-
-        Edit Details
-
-    </h2>
+    <h2 class="card-title">Edit Details</h2>
 
     <form
         method="post"
@@ -108,21 +86,9 @@ Edit Document
 
         <div class="card-actions">
 
-            <button
-                type="submit"
-                class="btn btn-success">
+            <button type="submit" class="btn btn-success">Save Changes</button>
 
-                Save Changes
-
-            </button>
-
-            <a
-                href="{% url 'document_detail' document.id %}"
-                class="btn btn-secondary">
-
-                Cancel
-
-            </a>
+            <a href="{% url 'document_detail' document.id %}" class="btn btn-secondary">Cancel</a>
 
         </div>
 
@@ -131,4 +97,4 @@ Edit Document
 </div>
 
 {% endblock %}
-```
+

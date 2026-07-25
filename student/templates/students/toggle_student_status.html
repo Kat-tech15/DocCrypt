@@ -12,73 +12,33 @@ Student Status
 
         <h2>Deactivate Student</h2>
 
-        <p class="confirmation-text">
-
-            Are you sure you want to deactivate this student?
-
-        </p>
+        <p class="confirmation-text">Are you sure you want to deactivate this student?</p>
 
     {% else %}
 
-        <h2>Reactivate Student</h2>
+        <h2>Activate Student</h2>
 
-        <p class="confirmation-text">
-
-            Are you sure you want to reactivate this student?
-
-        </p>
+        <p class="confirmation-text">Are you sure you want to activate this student?</p>
 
     {% endif %}
 
     <div class="info-grid">
 
-        <div class="info-label">
+        <div class="info-label"> Admission Number</div>
 
-            Admission Number
+        <div> {{ student.admission_number }} </div>
 
-        </div>
+        <div class="info-label">Name</div>
 
-        <div>
+        <div> {{ student.full_name }} </div>
 
-            {{ student.admission_number }}
+        <div class="info-label">Programme</div>
 
-        </div>
+        <div> {{ student.programme }} </div>
 
-        <div class="info-label">
+        <div class="info-label">Current Status</div>
 
-            Name
-
-        </div>
-
-        <div>
-
-            {{ student.full_name }}
-
-        </div>
-
-        <div class="info-label">
-
-            Programme
-
-        </div>
-
-        <div>
-
-            {{ student.programme }}
-
-        </div>
-
-        <div class="info-label">
-
-            Current Status
-
-        </div>
-
-        <div>
-
-            {{ student.get_status_display }}
-
-        </div>
+        <div> {{ student.get_status_display }} </div>
 
     </div>
 
@@ -88,33 +48,15 @@ Student Status
 
         <div class="confirmation-actions">
 
-            <a
-                href="{% url 'student_detail' student.id %}"
-                class="btn btn-secondary">
-
-                Cancel
-
-            </a>
+            <a href="{% url 'student_detail' student.id %}" class="btn btn-secondary">Cancel</a>
 
             {% if student.status == student.Status.ACTIVE %}
 
-                <button
-                    type="submit"
-                    class="btn btn-danger">
-
-                    Confirm Deactivation
-
-                </button>
+                <button type="submit" class="btn btn-danger">Deactivate</button>
 
             {% else %}
 
-                <button
-                    type="submit"
-                    class="btn btn-success">
-
-                    Confirm Reactivation
-
-                </button>
+                <button type="submit" class="btn btn-success">Activate</button>
 
             {% endif %}
 

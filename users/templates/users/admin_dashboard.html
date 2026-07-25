@@ -15,16 +15,9 @@ PAGE HEADER
 
     <div>
 
-        <h1>
-            Administrator Dashboard
-        </h1>
+        <h1>Administrator Dashboard</h1>
 
-        <p>
-
-            Welcome back,
-            <strong>{{ request.user.username }}</strong>
-
-        </p>
+        <p>Welcome back, <strong>{{ request.user.username }}</strong></p>
 
     </div>
 
@@ -39,71 +32,41 @@ STATISTICS
 
     <div class="dashboard-card">
 
-        <h3>
-            👨‍🎓 All Students
-        </h3>
+        <h3> 👨‍🎓 All Students</h3>
 
-        <h1>
-
-            {{ total_students }}
-
-        </h1>
-
-    </div>
-    <div class="dashboard-card">
-
-        <h3>
-            👨‍🎓 Deferred Students
-        </h3>
-
-        <h1>
-
-            {{ deferred_students }}
-
-        </h1>
-
-    </div>
-
-
-    <div class="dashboard-card">
-
-        <h3>
-            📄 Documents
-        </h3>
-
-        <h1>
-
-            {{ total_documents }}
-
-        </h1>
+        <h1> {{ total_students }} </h1>
 
     </div>
 
     <div class="dashboard-card">
 
-        <h3>
-            🔒 Encrypted Documents
-        </h3>
+        <h3>✅ Active Students</h3>
 
-        <h1>
-
-            {{ encrypted_documents }}
-
-        </h1>
+        <h1> {{ active_students }} </h1>
 
     </div>
 
     <div class="dashboard-card">
 
-        <h3>
-            ✅ Active Students
-        </h3>
+        <h3>👨‍🎓 Deferred Students</h3>
 
-        <h1>
+        <h1> {{ deferred_students }} </h1>
 
-            {{ active_students }}
+    </div>
 
-        </h1>
+    <div class="dashboard-card">
+
+        <h3> 📄 Documents</h3>
+
+        <h1> {{ total_documents }} </h1>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>🔒 Encrypted Documents</h3>
+
+        <h1> {{ encrypted_documents }} </h1>
 
     </div>
 
@@ -118,19 +81,9 @@ RECENT DOCUMENTS
 
     <div class="page-header">
 
-        <h2 class="card-title">
+        <h2 class="card-title">Recent Uploads</h2>
 
-            Recent Uploads
-
-        </h2>
-
-        <a
-            href="{% url 'document_list' %}"
-            class="btn btn-primary btn-small">
-
-            View All
-
-        </a>
+        <a href="{% url 'document_list' %}" class="btn btn-primary btn-small">View All</a>
 
     </div>
 
@@ -158,17 +111,9 @@ RECENT DOCUMENTS
 
             <tr>
 
-                <td>
+                <td> {{ document.student.full_name }} </td>
 
-                    {{ document.student.full_name }}
-
-                </td>
-
-                <td>
-
-                    {{ document.title }}
-
-                </td>
+                <td> {{ document.title }} </td>
 
                 <td>
 
@@ -192,11 +137,7 @@ RECENT DOCUMENTS
 
                 </td>
 
-                <td>
-
-                    {{ document.uploaded_at|date:"d M Y H:i" }}
-
-                </td>
+                <td> {{ document.uploaded_at|date:"d M Y H:i" }} </td>
 
             </tr>
 
@@ -204,11 +145,7 @@ RECENT DOCUMENTS
 
             <tr>
 
-                <td colspan="4">
-
-                    No uploaded documents.
-
-                </td>
+                <td colspan="4">No uploaded documents.</td>
 
             </tr>
 
@@ -229,19 +166,9 @@ RECENT STUDENTS
 
     <div class="page-header">
 
-        <h2 class="card-title">
+        <h2 class="card-title">Recently Registered Students</h2>
 
-            Recently Registered Students
-
-        </h2>
-
-        <a
-            href="{% url 'student_list' %}"
-            class="btn btn-primary btn-small">
-
-            View All
-
-        </a>
+        <a href="{% url 'student_list' %}" class="btn btn-primary btn-small">View All</a>
 
     </div>
 
@@ -269,23 +196,11 @@ RECENT STUDENTS
 
             <tr>
 
-                <td>
+                <td> {{ student.admission_number }} </td>
 
-                    {{ student.admission_number }}
+                <td> {{ student.full_name }} </td>
 
-                </td>
-
-                <td>
-
-                    {{ student.full_name }}
-
-                </td>
-
-                <td>
-
-                    {{ student.programme }}
-
-                </td>
+                <td> {{ student.programme }} </td>
 
                 <td>
 
@@ -300,6 +215,14 @@ RECENT STUDENTS
                     {% elif student.status == "DEFERRED" %}
 
                         <span class="badge badge-warning">
+
+                            {{ student.get_status_display }}
+
+                        </span>
+                    
+                    {% elif student.status == "DEACTIVATED" %}
+
+                        <span class="badge badge-danger">
 
                             {{ student.get_status_display }}
 
@@ -323,11 +246,7 @@ RECENT STUDENTS
 
             <tr>
 
-                <td colspan="4">
-
-                    No registered students.
-
-                </td>
+                <td colspan="4">No registered students.</td>
 
             </tr>
 
@@ -346,45 +265,17 @@ QUICK ACTIONS
 
 <div class="card">
 
-    <h2 class="card-title">
-
-        Quick Actions
-
-    </h2>
+    <h2 class="card-title">Quick Actions</h2>
 
     <div class="card-actions">
 
-        <a
-            href="{% url 'register_student' %}"
-            class="btn btn-primary">
+        <a href="{% url 'register_student' %}" class="btn btn-primary">Register Student</a>
 
-            Register Student
+        <a href="{% url 'upload_document' %}" class="btn btn-success">Upload Document</a>
 
-        </a>
+        <a href="{% url 'student_list' %}" class="btn btn-primary">Students</a>
 
-        <a
-            href="{% url 'upload_document' %}"
-            class="btn btn-success">
-
-            Upload Document
-
-        </a>
-
-        <a
-            href="{% url 'student_list' %}"
-            class="btn btn-primary">
-
-            Students
-
-        </a>
-
-        <a
-            href="{% url 'document_list' %}"
-            class="btn btn-secondary">
-
-            Documents
-
-        </a>
+        <a href="{% url 'document_list' %}" class="btn btn-secondary">Documents</a>
 
     </div>
 
@@ -397,11 +288,7 @@ SYSTEM STATUS
 
 <div class="card">
 
-    <h2 class="card-title">
-
-        System Status
-
-    </h2>
+    <h2 class="card-title">System Status</h2>
 
     <div class="security-list">
 

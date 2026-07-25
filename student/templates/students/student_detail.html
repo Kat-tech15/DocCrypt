@@ -8,16 +8,9 @@ Student Profile
 
 <div class="page-header">
 
-    <a href="{% url 'student_list' %}" class="btn btn-secondary">
-
-        ← Back to Students
-
-    </a>
+    <a href="{% url 'student_list' %}" class="btn btn-secondary">← Back to Students</a>
 
 </div>
-
-
-<!-- Student Information -->
 
 <div class="card">
 
@@ -25,17 +18,9 @@ Student Profile
 
         <div>
 
-            <h3>
+            <h3> {{ student.full_name }} </h3>
 
-                {{ student.full_name }}
-
-            </h3>
-
-            <p class="text-muted">
-
-                {{ student.admission_number }}
-
-            </p>
+            <p class="text-muted"> {{ student.admission_number }} </p>
 
         </div>
 
@@ -91,65 +76,33 @@ Student Profile
 
         <div class="info-item">
 
-            <span class="label">
+            <span class="label">Admission Number</span>
 
-                Admission Number
-
-            </span>
-
-            <span>
-
-                {{ student.admission_number }}
-
-            </span>
+            <span> {{ student.admission_number }} </span>
 
         </div>
 
         <div class="info-item">
 
-            <span class="label">
+            <span class="label">Programme</span>
 
-                Programme
-
-            </span>
-
-            <span>
-
-                {{ student.programme }}
-
-            </span>
+            <span> {{ student.programme }} </span>
 
         </div>
 
         <div class="info-item">
 
-            <span class="label">
+            <span class="label">Department</span>
 
-                Department
-
-            </span>
-
-            <span>
-
-                {{ student.department }}
-
-            </span>
+            <span> {{ student.department }} </span>
 
         </div>
 
         <div class="info-item">
 
-            <span class="label">
+            <span class="label">Year of Study</span>
 
-                Year of Study
-
-            </span>
-
-            <span>
-
-                {{ student.year_of_study }}
-
-            </span>
+            <span> {{ student.year_of_study }} </span>
 
         </div>
 
@@ -158,18 +111,11 @@ Student Profile
 </div>
 
 
-
-<!-- Documents -->
-
 <div class="card">
 
     <div class="card-header">
 
-        <h2>
-
-            Uploaded Documents
-
-        </h2>
+        <h2>Uploaded Documents</h2>
 
     </div>
 
@@ -233,13 +179,7 @@ Student Profile
 
                 <td>
 
-                    <a href="{% url 'download_document' document.id %}"
-
-                       class="btn btn-success btn-small">
-
-                        Download
-
-                    </a>
+                    <a href="{% url 'download_document' document.id %}" class="btn btn-success btn-small">Download</a>
 
                 </td>
 
@@ -249,11 +189,7 @@ Student Profile
 
             <tr>
 
-                <td colspan="4" class="empty-table">
-
-                    No documents uploaded.
-
-                </td>
+                <td colspan="4" class="empty-table">No documents uploaded.</td>
 
             </tr>
 
@@ -266,54 +202,23 @@ Student Profile
 </div>
 
 
-
-<!-- Administrator Actions -->
-
 <div class="card">
 
-    <h2>
-
-        Administrator Actions
-
-    </h2>
+    <h2>Administrator Actions</h2>
 
     <div class="action-buttons">
 
-        <a href="{% url 'edit_student' student.id %}"
+        <a href="{% url 'edit_student' student.id %}" class="btn btn-primary">Edit Student</a>
 
-           class="btn btn-primary">
-
-            Edit Student
-
-        </a>
-
-        <a href="{% url 'upload_document' %}"
-
-           class="btn btn-success">
-
-            Upload Document
-
-        </a>
+        <a href="{% url 'upload_document' %}" class="btn btn-success">Upload Document</a>
 
         {% if student.status == student.Status.ACTIVE %}
 
-            <a
-                href="{% url 'toggle_student_status' student.id %}"
-                class="btn btn-danger">
-
-                Deactivate Student
-
-            </a>
+            <a href="{% url 'toggle_student_status' student.id %}" class="btn btn-danger">Deactivate Student</a>
 
         {% else %}
 
-            <a
-                href="{% url 'toggle_student_status' student.id %}"
-                class="btn btn-success">
-
-                Activate Student
-
-            </a>
+            <a href="{% url 'toggle_student_status' student.id %}" class="btn btn-success">Activate Student</a>
 
         {% endif %}
 

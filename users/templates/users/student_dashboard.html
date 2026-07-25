@@ -14,15 +14,11 @@ Student Dashboard
 
     <div>
 
-        <h1>
-            Welcome back, {{ student.first_name }} 🤝
-        </h1>
+        <h1>Welcome back, {{ student.first_name }} 🤝</h1>
 
         <p>
-
             Admission Number:
             <strong>{{ student.admission_number }}</strong>
-
         </p>
 
     </div>
@@ -36,41 +32,23 @@ Student Dashboard
 
 <div class="card">
 
-    <h2 class="card-title">
-
-        👤 Student Information
-
-    </h2>
+    <h2 class="card-title">👤 Student Information</h2>
 
     <div class="info-grid">
 
-        <div class="info-label">
-            Programme
-        </div>
+        <div class="info-label">Programme</div>
 
-        <div>
-            {{ student.programme }}
-        </div>
+        <div> {{ student.programme }}</div>
 
-        <div class="info-label">
-            Department
-        </div>
+        <div class="info-label">Department</div>
 
-        <div>
-            {{ student.department }}
-        </div>
+        <div> {{ student.department }} </div>
 
-        <div class="info-label">
-            Year of Study
-        </div>
+        <div class="info-label">Year of Study</div>
 
-        <div>
-            {{ student.year_of_study }}
-        </div>
+        <div> {{ student.year_of_study }} </div>
 
-        <div class="info-label">
-            Status
-        </div>
+        <div class="info-label">Status</div>
 
         <div>
 
@@ -115,49 +93,25 @@ Student Dashboard
 
     <div class="dashboard-card">
 
-        <h3>
+        <h3>📄 My Documents</h3>
 
-            📄 My Documents
-
-        </h3>
-
-        <h1>
-
-            {{ document_count }}
-
-        </h1>
+        <h1> {{ document_count }} </h1>
 
     </div>
 
     <div class="dashboard-card">
 
-        <h3>
+        <h3>🔒 Encrypted Files</h3>
 
-            🔒 Encrypted Files
-
-        </h3>
-
-        <h1>
-
-            {{ encrypted_count }}
-
-        </h1>
+        <h1> {{ encrypted_count }} </h1>
 
     </div>
 
     <div class="dashboard-card">
 
-        <h3>
+        <h3>📂 Recent Uploads</h3>
 
-            📂 Recent Uploads
-
-        </h3>
-
-        <h1>
-
-            {{ documents|length }}
-
-        </h1>
+        <h1> {{ documents|length }} </h1>
 
     </div>
 
@@ -172,19 +126,9 @@ Student Dashboard
 
     <div class="page-header">
 
-        <h2 class="card-title">
+        <h2 class="card-title">Recent Documents</h2>
 
-            Recent Documents
-
-        </h2>
-
-        <a
-            href="{% url 'my_documents' %}"
-            class="btn btn-primary btn-small">
-
-            View All
-
-        </a>
+        <a href="{% url 'my_documents' %}" class="btn btn-primary btn-small">View All</a>
 
     </div>
 
@@ -214,11 +158,7 @@ Student Dashboard
 
                 <tr>
 
-                    <td>
-
-                        {{ document.title }}
-
-                    </td>
+                    <td> {{ document.title }} </td>
 
                     <td>
 
@@ -266,11 +206,7 @@ Student Dashboard
 
                 <tr>
 
-                    <td colspan="4" style="text-align:center;">
-
-                        No documents available.
-
-                    </td>
+                    <td colspan="4" style="text-align:center;">No documents available.</td>
 
                 </tr>
 
@@ -291,29 +227,13 @@ Student Dashboard
 
 <div class="card">
 
-    <h2 class="card-title">
-
-        ⚡ Quick Actions
-
-    </h2>
+    <h2 class="card-title">⚡ Quick Actions</h2>
 
     <div class="card-actions">
 
-        <a
-            href="{% url 'my_documents' %}"
-            class="btn btn-primary">
+        <a href="{% url 'my_documents' %}" class="btn btn-primary">My Documents</a>
 
-            My Documents
-
-        </a>
-
-        <a
-            href="{% url 'change_password' %}"
-            class="btn btn-secondary">
-
-            Change Password
-
-        </a>
+        <a href="{% url 'change_password' %}" class="btn btn-secondary">Change Password</a>
 
     </div>
 
@@ -326,11 +246,7 @@ Student Dashboard
 
 <div class="card">
 
-    <h2 class="card-title">
-
-        🔐 Security Status
-
-    </h2>
+    <h2 class="card-title">🔐 Security Status</h2>
 
     <div class="security-list">
 

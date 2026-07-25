@@ -25,10 +25,10 @@ body{
     margin:40px auto;
 }
 h2{
-        text-align: center;
-        font-style: oblique;
-        color: rgb(109, 166, 216);
-    }
+    text-align: center;
+    font-style: oblique;
+    color: rgb(109, 166, 216);
+}
 /* ==========================================
    HEADER
 ========================================== */
@@ -39,58 +39,44 @@ h2{
 header{
     background:#2563eb;
     color:white;
+    position: relative;
     box-shadow:0 3px 10px rgba(0,0,0,.15);
 }
 
 .navbar{
-
     width:90%;
     max-width:1200px;
-
     margin:auto;
-
     display:flex;
     justify-content:space-between;
     align-items:center;
-
     height:70px;
-
 }
 
 .logo a{
-
     color:white;
     font-size:28px;
     font-weight:bold;
     text-decoration: overline;
-
 }
 
 .logo span{
-
     color:#ffd54f;
-
 }
 
 nav{
-
     display:flex;
     gap:20px;
-
 }
 
 nav a{
-
     color:white;
     font-weight:600;
     text-decoration: none;
-
 }
 
 nav a:hover{
-
     color:#ffd54f;
-
 }
 
 .user-menu{
@@ -109,7 +95,6 @@ nav a:hover{
 ========================================== */
 
 .page-header{
-
     display:grid;
     grid-template-columns: 1fr auto;
     align-items:center;
@@ -117,21 +102,22 @@ nav a:hover{
 }
 
 .page-header h1{
-
     color:#1976d2;
     margin-bottom:5px;
 }
 
 .page-header p{
-
     color:#666;
 }
+
 .page-title{
     justify-self: start;
 }
+
 .page-search{
     justify-self: center;
 }
+
 .page-actions{
     justify-self: end;
 }
@@ -141,29 +127,20 @@ nav a:hover{
 ========================================== */
 
 .card{
-
     background:white;
-
     border-radius:12px;
-
     padding:25px;
-
     margin-bottom:25px;
-
     box-shadow:0 4px 15px rgba(0,0,0,.08);
 }
 
 .card-title{
-
     margin-bottom:20px;
-
     color:#1976d2;
 }
 
 .card-actions{
-
     margin-top:25px;
-
     display:flex;
     gap:10px;
     flex-wrap:wrap;
@@ -174,79 +151,53 @@ nav a:hover{
 ========================================== */
 
 .btn{
-
     display:inline-flex;
-
     align-items:center;
-
     justify-content:center;
-
     gap:8px;
-
     padding:10px 20px;
-
     border:none;
-
     border-radius:6px;
-
     cursor:pointer;
-
     text-decoration:none;
-
     font-weight:600;
-
     transition:.3s;
 }
 
 .btn:hover{
-
     transform:translateY(-1px);
-
     opacity:.92;
 }
 
 .btn-primary{
-
     background:#1976d2;
-
     color:white;
 }
 
 .btn-success{
-
     background:#2e7d32;
-
     color:white;
 }
 
 .btn-danger{
-
     background:#d32f2f;
-
     color:white;
 }
 
 .btn-secondary{
-
     background:#616161;
-
     color:white;
     width: fit-content;
 }
 
 .btn-outline{
-
     background:white;
-
     border:2px solid #1976d2;
-
     color:#1976d2;
 }
 
 .btn-small{
-
     padding:8px 14px;
-
     font-size:14px;
 }
 
@@ -255,40 +206,27 @@ nav a:hover{
 ========================================== */
 
 .form-group{
-
     margin-bottom:18px;
 }
 
 .form-group label{
-
     display:block;
-
     margin-bottom:8px;
-
     font-weight:600;
 }
 
 .form-control{
-
     width:100%;
-
     padding:12px;
-
     border:1px solid #ccc;
-
     border-radius:6px;
-
     font-size:15px;
-
     transition:.3s;
 }
 
 .form-control:focus{
-
     outline:none;
-
     border-color:#2fd5ff;
-
     box-shadow:0 0 6px rgba(25,118,210,.25);
 }
 
@@ -297,38 +235,28 @@ nav a:hover{
 ========================================== */
 
 .table-responsive{
-
     overflow-x:auto;
 }
 
 table{
-
     width:100%;
-
     border-collapse:collapse;
 }
 
 th{
-
     background:#1976d2;
-
     color:white;
-
     padding:14px;
-
     text-align:center;
 }
 
 td{
-
     padding:14px;
-
     border-bottom:1px solid #e5e5e5;
     text-align: center;
 }
 
 tr:hover{
-
     background:#f8f9fb;
 }
 
@@ -337,34 +265,26 @@ tr:hover{
 ========================================== */
 
 .badge{
-
     display:inline-block;
-
     padding:6px 14px;
-
     border-radius:30px;
-
     color:white;
-
     font-size:13px;
-
     font-weight:600;
 }
 
 .badge-success{
-
     background:#2e7d32;
 }
 
 .badge-warning{
-
     background:#f9a825;
 }
 
 .badge-secondary{
-
     background:#616161;
 }
+
 .badge-danger{
     background: #d32f2f;
 }
@@ -374,45 +294,28 @@ tr:hover{
 ========================================== */
 
 .info-grid{
-
     display:grid;
-
     grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-
     gap:20px;
-
 }
 
 .info-item{
-
     background:#f8fafc;
-
     border-left:4px solid #2563eb;
-
     padding:18px;
-
     border-radius:8px;
-
 }
 
 .info-item .label{
-
     display:block;
-
     font-size:13px;
-
     color:#777;
-
     margin-bottom:8px;
-
 }
 
 .info-item span:last-child{
-
     font-weight:600;
-
     font-size:17px;
-
 }
 
 /* ==========================================
@@ -421,58 +324,41 @@ tr:hover{
 
 
 footer{
-
     margin-top:50px;
-
     padding:20px 0;
-
-
     color: #777;
-
     text-align:center;
-
 }
 /* ==========================================
    RESPONSIVE
 ========================================== */
 
 @media(max-width:768px){
-
     .navbar{
-
         flex-direction:column;
-
         gap:15px;
     }
 
     .nav-links{
-
         flex-wrap:wrap;
-
         justify-content:center;
     }
 
     .page-header{
-
         flex-direction:column;
-
         align-items:flex-start;
-
         gap:15px;
     }
 
     .info-grid{
-
         grid-template-columns:1fr;
     }
 
     .card-actions{
-
         flex-direction:column;
     }
 
     .btn{
-
         width:100%;
     }
 }
@@ -482,180 +368,124 @@ footer{
 =========================== */
 
 .dashboard-grid{
-
     display:grid;
-
     grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-
     gap:20px;
-
     margin-bottom:25px;
 }
 
 .dashboard-card{
-
     background:white;
-
     padding:25px;
-
     border-radius:12px;
-
     box-shadow:0 3px 10px rgba(0,0,0,.08);
-
     text-align:center;
 }
 
 .dashboard-card h3{
-
     color:#666;
-
     margin-bottom:10px;
 }
 
 .dashboard-card h1{
-
     font-size:40px;
-
     color:#1976d2;
 }
+
 /* ===========================
    SECURITY STATUS
 =========================== */
 
 .security-list{
-
     display:flex;
-
     flex-direction:column;
-
     gap:15px;
 }
 
 .security-item{
-
     background:#f8f9fc;
-
     border-left:5px solid #1976d2;
-
     padding:15px;
-
     border-radius:6px;
-
     font-weight:500;
 }
+
 /* ===========================
    AUTHENTICATION
 =========================== */
 
 .auth-container{
-
     min-height:80vh;
-
     display:flex;
-
     justify-content:center;
-
     align-items:center;
-
     padding:40px 20px;
-
 }
 
 .auth-card{
-
     width:100%;
-
     max-width:500px;
-
     background:#fff;
-
     border-radius:12px;
-
     padding:35px;
-
     box-shadow:0 5px 20px rgba(0,0,0,.12);
-
 }
 
 .auth-card h2{
-
     text-align:center;
-
     margin-bottom:25px;
-
 }
+
 /* ===========================
    FORMS
 =========================== */
 
 form{
-
     width:100%;
-
 }
 
 form p{
-
     margin-bottom:18px;
-
 }
 
 label{
-
     display:block;
-
     margin-bottom:6px;
-
     font-weight:600;
     color: cadetblue;
     font-family:'Courier New', Courier, monospace;
-
 }
 
 input,
 select,
 textarea{
-
     width:100%;
-
     padding:12px;
-
     border:1px solid #2fd5ff;
-
     border-radius:8px;
-
     font-size:15px;
-
     box-sizing:border-box;
-
     transition:.3s;
-
 }
 
 input:focus,
 select:focus,
 textarea:focus{
-
     border-color:#2fd5ff;
-
     outline:none;
-
     box-shadow:0 0 5px rgba(37,99,235,.25);
-
 }
+
 .form-actions{
-
     margin-top:25px;
-
 }
 
 .form-actions .btn{
-
     width:100%;
-
     text-align:center;
 
 }
+
 /* ===========================
    ALERT MESSAGES
 =========================== */
@@ -698,34 +528,30 @@ textarea:focus{
     color:#1565c0;
     border-color:#1565c0;
 }
+
 /* ===========================
    SEARCH BAR
 =========================== */
 
 .search-form{
-
     display:flex;
     gap:10px;
     align-items:center;
-
 }
 
 .search-input{
-
     width:320px;
     padding:10px 15px;
     border:1px solid #ccc;
     border-radius:6px;
     font-size:15px;
-
 }
 
 .search-input:focus{
-
     outline:none;
     border-color:#2563eb;
-
 }
+
 /* ===========================
    CONFIRMATION PAGE
 =========================== */
@@ -752,6 +578,7 @@ textarea:focus{
     gap:15px;
     margin-top:25px;
 }
+
 /*===================
     PAGINATION
 ====================*/
