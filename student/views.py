@@ -5,15 +5,18 @@ from .models import Student
 from django.contrib import messages
 from .forms import StudentUpdateForm
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 @login_required
 def students_list(request):
     if not request.user.is_admin:
         return HttpResponseForbidden("Only administrators can access this page.")
 
-    query = request.GET.get("q", "")
+    
 
-    students = Student.objects.select_related("user").all()
+    students = Student.objects.select_related("user").all().order_by("admission_number")
+
+    query = request.GET.get("q", "")
 
     if query:
         students = students.filter(
@@ -23,6 +26,11 @@ def students_list(request):
             Q(programme__icontains=query) |
             Q(department__icontains=query)
         )
+
+    paginator = Paginator(students, 10)
+    page_number = request.GET.get("page")
+
+    students = paginator.get_page(page_number)
 
     context ={"students": students, "query": query}
 
@@ -58,7 +66,7 @@ def edit_student(request, student_id):
 
         if form.is_valid():
             form.save()
-            messages.success(request, "Student information updated successfully.")
+            messages.info(request, "Student information updated successfully.")
 
             return redirect("student_detail", student_id=student.id)
 

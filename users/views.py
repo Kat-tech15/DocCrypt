@@ -66,7 +66,7 @@ def login_view(request):
             if (user.is_student and user.student.status == user.student.Status.DEACTIVATED):
 
                 messages.error(
-                    request, "Your account has been deactivated. Please contact the system administrators."
+                    request, "! Your account has been deactivated. Please contact the system administrators."
                 )
                 return redirect("login")
             
@@ -173,11 +173,11 @@ def toggle_student_status(request, student_id):
             student.status = Student.Status.DEACTIVATED
            
 
-            messages.success(request, f"{student.full_name} has been deactivated.")
+            messages.info(request, f"{student.full_name} has been deactivated.")
 
         else:
             student.status = Student.Status.ACTIVE
-            messages.success(request, f"{student.full_name} has been activated.")
+            messages.info(request, f"{student.full_name} has been activated.")
 
         student.save()
 

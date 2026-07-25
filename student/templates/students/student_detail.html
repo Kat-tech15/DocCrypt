@@ -39,7 +39,7 @@ Student Profile
 
         </div>
 
-        <div>
+        <div class="badge">
 
             {% if student.status == "ACTIVE" %}
 
@@ -52,6 +52,22 @@ Student Profile
             {% elif student.status == "DEFERRED" %}
 
                 <span class="badge badge-warning">
+
+                    {{ student.get_status_display }}
+
+                </span>
+
+            {% elif student.status == "DEACTIVATED" %}
+                
+                <span class="badge badge-danger">
+                    
+                    {{ student.get_status_display }}
+
+                </span>
+
+            {% elif student.status == "GRADUATED" %}
+                
+                <span class="badge badge-success">
 
                     {{ student.get_status_display }}
 

@@ -64,5 +64,33 @@ My Documents
         </tbody>
 
     </table>
+
+    {% if documents.has_other_pages %}
+
+    <div class="pagination">
+        
+        {% if documents.has_previous %}
+
+            <a href="?page=1{% if query %}&q={{ query }}{% endif %}">First</a>
+
+            <a href="?page={{ documents.previous_number }}{% if query %}&q={{ query }}{% endif %}">Previous</a>
+        {% endif %}
+
+        <span class="current-page">
+            Page {{ documents.number }} of {{documents.paginator.num_pages }}
+        </span>
+        
+        {% if documents.has_next %}
+
+            <a href="?page={{ documents.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Next</a>
+
+            <a href="?page={{ documents.paginator_num_pages }}{% if query %}&q={{ query }}{% endif %}">Last</a>
+
+        {% endif %}
+
+    </div>
+
+    {% endif %}
+    
 </div>
 {% endblock %}

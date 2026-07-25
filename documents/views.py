@@ -11,6 +11,7 @@ from .models import Document
 from .pdf_services import PDFService
 from .services import EncryptionService
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 
 @require_http_methods(["GET", "POST"])
@@ -81,8 +82,12 @@ def my_documents(request):
         Document.objects
         .select_related(
             "student","uploaded_by",
-        ).filter(student=student)
+        ).filter(student=student).order_by("-uploaded_at")
     )
+
+    paginator = Paginator(documents, 10)
+    page_number = request.GET.get("page")
+    documents = paginator.get_page(page_number)
 
     return render(request, "documents/my_documents.html", {"documents": documents})
 
@@ -135,10 +140,8 @@ def download_document(request, document_id):
         return response
 
     except Exception:
-        messages.error(
-            request,
-            "Unable to download the requested document.",
-        )
+        messages.error( request, "Unable to download the requested document.")
+
         return redirect("my_documents")
     
 @login_required
@@ -146,9 +149,9 @@ def document_list(request):
     if not request.user.is_admin:
         return HttpResponseForbidden(request, "This page is only accessible to administrators.")
 
-    query = request.GET.get("q", "")
+    documents = Document.objects.select_related("student").all().order_by("student__admission_number")
 
-    documents = Document.objects.select_related("student").all()
+    query = request.GET.get("q", "")
 
     if query:
         documents = documents.filter(
@@ -159,6 +162,10 @@ def document_list(request):
             Q(student__last_name__icontains=query) |
             Q(status__icontains=query)
         )
+
+    paginator = Paginator(documents, 10)
+    page_number = request.GET.get("page")
+    documents = paginator.get_page(page_number)
 
     context = {"documents": documents, "query": query}
 
@@ -188,7 +195,7 @@ def edit_document(request, document_id):
 
         form.save()
 
-        messages.success(request, "Document updated successfully.")
+        messages.info(request, "Document updated successfully.")
 
         return redirect("document_detail", document_id=document.id)
 
