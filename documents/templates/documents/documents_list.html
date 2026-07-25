@@ -8,19 +8,41 @@ Documents
 
 <div class="page-header">
 
-    <div>
+    <div class="page-title">
 
-        <h1>Uploaded Documents</h1>
+        <h2>Uploaded Documents</h2>
 
     </div>
 
-    <a
-        href="{% url 'upload_document' %}"
-        class="btn btn-success">
+    <div class="page-search">
 
-        Upload Document
+        <form method="get" class="search-form">
 
-    </a>
+            <input
+                type="text"
+                name="q"
+                value="{{ query }}"
+                placeholder="Search documents..."
+                class="search-input"
+            >
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                Search
+
+            </button>
+
+        </form>
+
+    </div>
+
+    <div class="page-actions">
+
+        <!-- Reserved for future actions -->
+
+    </div>
 
 </div>
 

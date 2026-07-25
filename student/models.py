@@ -8,6 +8,7 @@ class Student(models.Model):
         ACTIVE = "ACTIVE", "Active"
         DEFERRED = "DEFERRED", "Deferred"
         GRADUATED = "GRADUATED", "Graduated"
+        DEACTIVATED = "DEACTIVATED", "Deactivated"
 
     user = models.OneToOneField(CustomUser,on_delete=models.CASCADE,related_name="student")
     admission_number = models.CharField(max_length=25,unique=True)

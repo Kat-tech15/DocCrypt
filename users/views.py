@@ -2,9 +2,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.views.decorators.http import require_POST
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
+from django.http import HttpResponseForbidden
 from documents.models import Document
 from student.models import Student
+from django.contrib import messages
 
 from .forms import (
     ChangePasswordForm,
@@ -61,6 +63,13 @@ def login_view(request):
         )
 
         if user:
+            if (user.is_student and user.student.status == user.student.Status.DEACTIVATED):
+
+                messages.error(
+                    request, "Your account has been deactivated. Please contact the system administrators."
+                )
+                return redirect("login")
+            
             login(request, user)
 
             if user.is_student and user.must_change_password:
@@ -151,6 +160,30 @@ def dashboard(request):
 
     
     return redirect("login")
+
+@login_required
+def toggle_student_status(request, student_id):
+    if not request.user.is_admin:
+        return HttpResponseForbidden(request, "Only administrators can access this service.")
+
+    student = get_object_or_404(Student, id=student_id)
+
+    if request.method == "POST":
+        if student.status == Student.Status.ACTIVE:
+            student.status = Student.Status.DEACTIVATED
+           
+
+            messages.success(request, f"{student.full_name} has been deactivated.")
+
+        else:
+            student.status = Student.Status.ACTIVE
+            messages.success(request, f"{student.full_name} has been activated.")
+
+        student.save()
+
+        return redirect("student_detail", student.id)
+
+    return render(request, "students/toggle_student_status.html", {"student": student})
 
 @login_required
 @require_POST

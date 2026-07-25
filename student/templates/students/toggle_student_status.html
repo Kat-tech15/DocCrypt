@@ -1,0 +1,127 @@
+{% extends "users/base.html" %}
+
+{% block title %}
+Student Status
+{% endblock %}
+
+{% block content %}
+
+<div class="card confirmation-card">
+
+    {% if student.status == student.Status.ACTIVE %}
+
+        <h2>Deactivate Student</h2>
+
+        <p class="confirmation-text">
+
+            Are you sure you want to deactivate this student?
+
+        </p>
+
+    {% else %}
+
+        <h2>Reactivate Student</h2>
+
+        <p class="confirmation-text">
+
+            Are you sure you want to reactivate this student?
+
+        </p>
+
+    {% endif %}
+
+    <div class="info-grid">
+
+        <div class="info-label">
+
+            Admission Number
+
+        </div>
+
+        <div>
+
+            {{ student.admission_number }}
+
+        </div>
+
+        <div class="info-label">
+
+            Name
+
+        </div>
+
+        <div>
+
+            {{ student.full_name }}
+
+        </div>
+
+        <div class="info-label">
+
+            Programme
+
+        </div>
+
+        <div>
+
+            {{ student.programme }}
+
+        </div>
+
+        <div class="info-label">
+
+            Current Status
+
+        </div>
+
+        <div>
+
+            {{ student.get_status_display }}
+
+        </div>
+
+    </div>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <div class="confirmation-actions">
+
+            <a
+                href="{% url 'student_detail' student.id %}"
+                class="btn btn-secondary">
+
+                Cancel
+
+            </a>
+
+            {% if student.status == student.Status.ACTIVE %}
+
+                <button
+                    type="submit"
+                    class="btn btn-danger">
+
+                    Confirm Deactivation
+
+                </button>
+
+            {% else %}
+
+                <button
+                    type="submit"
+                    class="btn btn-success">
+
+                    Confirm Reactivation
+
+                </button>
+
+            {% endif %}
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

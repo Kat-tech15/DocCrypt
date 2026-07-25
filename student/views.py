@@ -4,15 +4,27 @@ from django.http import HttpResponseForbidden
 from .models import Student
 from django.contrib import messages
 from .forms import StudentUpdateForm
+from django.db.models import Q
 
 @login_required
 def students_list(request):
     if not request.user.is_admin:
         return HttpResponseForbidden("Only administrators can access this page.")
-    
+
+    query = request.GET.get("q", "")
+
     students = Student.objects.select_related("user").all()
 
-    context ={"students": students}
+    if query:
+        students = students.filter(
+            Q(admission_number__icontains=query) |
+            Q(first_name__icontains=query) |
+            Q(last_name__icontains=query) |
+            Q(programme__icontains=query) |
+            Q(department__icontains=query)
+        )
+
+    context ={"students": students, "query": query}
 
     return render(request, "students/student_list.html", context)
 

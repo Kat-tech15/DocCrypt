@@ -279,13 +279,27 @@ Student Profile
 
         </a>
 
-        <a href="#"
+        {% if student.status == student.Status.ACTIVE %}
 
-           class="btn btn-danger">
+            <a
+                href="{% url 'toggle_student_status' student.id %}"
+                class="btn btn-danger">
 
-            Deactivate Student
+                Deactivate Student
 
-        </a>
+            </a>
+
+        {% else %}
+
+            <a
+                href="{% url 'toggle_student_status' student.id %}"
+                class="btn btn-success">
+
+                Activate Student
+
+            </a>
+
+        {% endif %}
 
     </div>
 

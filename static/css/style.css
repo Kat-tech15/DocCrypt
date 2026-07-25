@@ -94,13 +94,14 @@ nav a:hover{
 }
 
 .user-menu{
-
     display:flex;
     align-items:center;
     gap:15px;
+}
 
-    color:white;
-
+.username{
+    font-weight:600;
+    color:#555;
 }
 
 /* ==========================================
@@ -109,10 +110,9 @@ nav a:hover{
 
 .page-header{
 
-    display:flex;
-    justify-content:space-between;
+    display:grid;
+    grid-template-columns: 1fr auto;
     align-items:center;
-
     margin-bottom:25px;
 }
 
@@ -125,6 +125,15 @@ nav a:hover{
 .page-header p{
 
     color:#666;
+}
+.page-title{
+    justify-self: start;
+}
+.page-search{
+    justify-self: center;
+}
+.page-actions{
+    justify-self: end;
 }
 
 /* ==========================================
@@ -401,32 +410,6 @@ tr:hover{
     font-size:17px;
 
 }
-/* ==========================================
-   ALERTS
-========================================== */
-
-.alert{
-
-    padding:15px;
-
-    border-radius:6px;
-
-    margin-bottom:20px;
-}
-
-.alert-success{
-
-    background:#dff0d8;
-
-    color:#2e7d32;
-}
-
-.alert-danger{
-
-    background:#fdecea;
-
-    color:#b71c1c;
-}
 
 /* ==========================================
    FOOTER
@@ -668,4 +651,99 @@ textarea:focus{
 
     text-align:center;
 
+}
+/* ===========================
+   ALERT MESSAGES
+=========================== */
+
+.messages{
+    max-width: 700px;
+    margin: 0 auto 25px auto;
+}
+
+.alert{
+    padding:14px 18px;
+    margin-bottom:15px;
+    border-radius:8px;
+    border-left: 5px solid;
+    font-weight:500;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+
+.alert-success{
+    background:#e8f5e9;
+    color:#2e7d32;
+    border-color:#2e7d32;
+}
+
+.alert-error{
+    background:#ffebee;
+    color:#c62828;
+    border-color:#c62828;
+}
+
+.alert-warning{
+    background:#fff8e1;
+    color:#ef6c00;
+    border-color:#ef6c00;
+}
+
+.alert-info{
+    background:#e3f2fd;
+    color:#1565c0;
+    border-color:#1565c0;
+}
+/* ===========================
+   SEARCH BAR
+=========================== */
+
+.search-form{
+
+    display:flex;
+    gap:10px;
+    align-items:center;
+
+}
+
+.search-input{
+
+    width:320px;
+    padding:10px 15px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    font-size:15px;
+
+}
+
+.search-input:focus{
+
+    outline:none;
+    border-color:#2563eb;
+
+}
+/* ===========================
+   CONFIRMATION PAGE
+=========================== */
+
+.confirmation-card{
+    max-width:700px;
+    margin:40px auto;
+}
+
+.confirmation-text{
+    font-size:16px;
+    margin-bottom:25px;
+}
+
+.warning-text{
+    color:#d32f2f;
+    font-weight:600;
+    margin:20px 0;
+}
+
+.confirmation-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:15px;
+    margin-top:25px;
 }

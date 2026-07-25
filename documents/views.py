@@ -10,6 +10,7 @@ from .forms import DocumentUploadForm, DocumentEditForm
 from .models import Document
 from .pdf_services import PDFService
 from .services import EncryptionService
+from django.db.models import Q
 
 
 @require_http_methods(["GET", "POST"])
@@ -144,10 +145,22 @@ def download_document(request, document_id):
 def document_list(request):
     if not request.user.is_admin:
         return HttpResponseForbidden(request, "This page is only accessible to administrators.")
-    
+
+    query = request.GET.get("q", "")
+
     documents = Document.objects.select_related("student").all()
 
-    context = {"documents": documents}
+    if query:
+        documents = documents.filter(
+
+            Q(title__icontains=query) |
+            Q(student__admission_number__icontains=query) |
+            Q(student__first_name__icontains=query) |
+            Q(student__last_name__icontains=query) |
+            Q(status__icontains=query)
+        )
+
+    context = {"documents": documents, "query": query}
 
     return render(request, "documents/documents_list.html", context)
 

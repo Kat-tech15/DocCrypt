@@ -1,11 +1,14 @@
 {% load static %}
 
 <!DOCTYPE html>
-
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <metaname="viewport"content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>
 
         {% block title %}
@@ -17,9 +20,12 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
 </head>
+
 <body>
 
-    <!-- Navigation -->
+    <!-- ==========================
+         Navigation
+    =========================== -->
 
     <header>
 
@@ -37,61 +43,75 @@
 
             {% if request.user.is_authenticated %}
 
-            <nav>
+                <nav>
 
-                {% if request.user.is_admin %}
+                    {% if request.user.is_admin %}
 
-                    <a href="{% url 'dashboard' %}">
-                        Dashboard
-                    </a>
+                        <a href="{% url 'dashboard' %}">
+                            Dashboard
+                        </a>
 
-                    <a href="{% url 'student_list' %}">
-                        Students
-                    </a>
+                        <a href="{% url 'student_list' %}">
+                            Students
+                        </a>
 
-                    <a href="{% url 'document_list' %}">
-                        Documents
-                    </a>
+                        <a href="{% url 'document_list' %}">
+                            Documents
+                        </a>
 
-                    <a href="{% url 'register_student' %}">
-                        Register Student
-                    </a>
+                        <a href="{% url 'register_student' %}">
+                            Register Student
+                        </a>
 
-                {% elif request.user.is_student %}
+                    {% elif request.user.is_student %}
 
-                    <a href="{% url 'dashboard' %}">
-                        Dashboard
-                    </a>
+                        <a href="{% url 'dashboard' %}">
+                            Dashboard
+                        </a>
 
+                    {% endif %}
 
-                {% endif %}
+                </nav>
 
-            </nav>
+                <div class="user-menu">
 
-            <div class="user-menu">
+                    <span class="username">
 
+                        {{ request.user.username }}
 
-                <form method="post" action="{% url 'logout' %}" class="logout-form">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger btn-small">
-                        Logout
-                    </button>
-                </form>
+                    </span>
 
-            </div>
+                    <form method="post"
+                          action="{% url 'logout' %}"
+                          class="logout-form">
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="btn btn-danger btn-small">
+
+                            Logout
+
+                        </button>
+
+                    </form>
+
+                </div>
 
             {% else %}
 
-            <div class="user-menu">
+                <div class="user-menu">
 
-                <a
-                    href="{% url 'login' %}"
-                    class="btn btn-primary btn-small"
-                >
-                    Login
-                </a>
+                    <a
+                        href="{% url 'login' %}"
+                        class="btn btn-primary btn-small">
 
-            </div>
+                        Login
+
+                    </a>
+
+                </div>
 
             {% endif %}
 
@@ -99,9 +119,12 @@
 
     </header>
 
-    <!-- Messages -->
+    <!-- ==========================
+         Main Content
+    =========================== -->
 
-    {% if messages %}
+    <main class="container">
+        {% if messages %}
 
         <div class="messages">
 
@@ -117,11 +140,7 @@
 
         </div>
 
-    {% endif %}
-
-    <!-- Main Content -->
-
-    <main class="container">
+        {% endif %}
 
         {% block content %}
 
@@ -129,7 +148,9 @@
 
     </main>
 
-    <!-- Footer -->
+    <!-- ==========================
+         Footer
+    =========================== -->
 
     <footer>
 
@@ -141,6 +162,38 @@
         </p>
 
     </footer>
+
+    <!-- ==========================
+         Auto-dismiss Alerts
+    =========================== -->
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const alerts = document.querySelectorAll(".alert");
+
+            alerts.forEach(function(alert){
+
+                setTimeout(function(){
+
+                    alert.style.transition = "opacity .5s ease";
+
+                    alert.style.opacity = "0";
+
+                    setTimeout(function(){
+
+                        alert.remove();
+
+                    }, 500);
+
+                }, 4000);
+
+            });
+
+        });
+
+    </script>
 
 </body>
 

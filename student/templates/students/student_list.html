@@ -5,93 +5,130 @@ Students
 {% endblock %}
 
 {% block content %}
-<div class="card">
-<h2>Registered Students</h2>
 
-<table border="1" cellpadding="10">
+{% include "users/messages.html" %}
 
-    <thead>
+<div class="page-header">
 
-        <tr>
+    <div class="page-title">
 
-            <th>Admission Number</th>
+        <h2>Registered Students</h2>
 
-            <th>Name</th>
+    </div>
 
-            <th>Programme</th>
+    <div class="page-search">
 
-            <th>Status</th>
+        <form method="get" class="search-form">
 
-            <th>Actions</th>
+            <input
+                type="text"
+                name="q"
+                value="{{ query }}"
+                placeholder="Search students..."
+                class="search-input"
+            >
 
-        </tr>
+            <button
+                type="submit"
+                class="btn btn-primary">
 
-    </thead>
+                Search
 
-    <tbody>
+            </button>
 
-    {% for student in students %}
+        </form>
 
-        <tr>
+    </div>
 
-            <td>{{ student.admission_number }}</td>
+    <div class="page-actions">
 
-            <td>{{ student.full_name }}</td>
+        <!-- Reserved for future buttons -->
+        <!--
+        <a href="{% url 'register_student' %}" class="btn btn-success">
+            Register Student
+        </a>
+        -->
 
-            <td>{{ student.programme }}</td>
+    </div>
 
-            <td>{{ student.status }}</td>
-
-            <td>
-
-                <a href="{% url 'student_detail' student.id %}" class="btn btn-primary btn-small">View</a>
-
-            </td>
-            
-        </tr>
-
-    {% empty %}
-
-        <tr>
-
-            <td colspan="5">
-
-                No students registered.
-
-            </td>
-
-        </tr>
-
-    {% endfor %}
-
-    </tbody>
-
-</table>
 </div>
-<style>
-    .container{
-        width: 80%;
-        padding: 30px;
-        margin: auto;
-        justify-content: center;
-    }
-    h2{
-        font-style: oblique;
-        text-align: center;
-        color: rgb(109, 166, 206);
-    }
-    .card{
-        padding: 25px;
-        border-radius: 8px;
-        background: white;
-        box-shadow: 0 0 12px rgba(0, 0 , 0 ,0.1);
-    }
-    table{
-        width: 100%;
-    }
-    table td{
-        color: cadetblue;
-        font-family: 'Courier New', Courier, monospace;
-    }
-</style>
+
+<div class="card">
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Admission Number</th>
+
+                <th>Name</th>
+
+                <th>Programme</th>
+
+                <th>Status</th>
+
+                <th>Actions</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% for student in students %}
+
+            <tr>
+
+                <td>{{ student.admission_number }}</td>
+
+                <td>{{ student.full_name }}</td>
+
+                <td>{{ student.programme }}</td>
+
+                <td>
+
+                    <span class="badge badge-success">
+
+                        {{ student.get_status_display }}
+
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <a
+                        href="{% url 'student_detail' student.id %}"
+                        class="btn btn-primary btn-small">
+
+                        View
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+        {% empty %}
+
+            <tr>
+
+                <td colspan="5" style="text-align:center;">
+
+                    No students found.
+
+                </td>
+
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
 {% endblock %}
