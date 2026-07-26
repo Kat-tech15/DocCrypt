@@ -1,7 +1,8 @@
 from django import forms
 
 FORM_CONTROL = {
-    "class": "form-control"
+    "class": "form-control",
+    "autocomplete": "on",
 }
 
 
@@ -11,7 +12,7 @@ class StudentRegistrationForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 **FORM_CONTROL,
-                "placeholder": "SB62/PU/41063/22",
+                "placeholder": "Enter admission number",
             }
         ),
     )
@@ -21,7 +22,7 @@ class StudentRegistrationForm(forms.Form):
         widget=forms.EmailInput(
             attrs={
                 **FORM_CONTROL,
-                "placeholder": "student@example.com",
+                "placeholder": "Enter student email",
             }
         ),
     )
@@ -32,7 +33,7 @@ class StudentRegistrationForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 **FORM_CONTROL,
-                "placeholder": "First Name",
+                "placeholder": "Enter first name",
             }
         ),
     )
@@ -43,7 +44,7 @@ class StudentRegistrationForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 **FORM_CONTROL,
-                "placeholder": "Last Name",
+                "placeholder": "Enter last name",
             }
         ),
     )
@@ -54,7 +55,7 @@ class StudentRegistrationForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 **FORM_CONTROL,
-                "placeholder": "Bachelor of Science in Telecommunication and Information Technology",
+                "placeholder": "e.g. BSc Telecommunication and IT",
             }
         ),
     )
@@ -65,7 +66,7 @@ class StudentRegistrationForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 **FORM_CONTROL,
-                "placeholder": "Pure and Applied Sciences",
+                "placeholder": "e.g. Pure and Applied Sciences",
             }
         ),
     )
@@ -76,7 +77,7 @@ class StudentRegistrationForm(forms.Form):
         widget=forms.NumberInput(
             attrs={
                 **FORM_CONTROL,
-                "placeholder": "1",
+                "placeholder": "e.g. 4",
             }
         ),
     )
@@ -88,7 +89,7 @@ class StudentRegistrationForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 **FORM_CONTROL,
-                "placeholder": "0712345678",
+                "placeholder": "e.g. 0712345678",
             }
         ),
     )

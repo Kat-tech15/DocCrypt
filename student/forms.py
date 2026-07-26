@@ -11,5 +11,4 @@ class StudentUpdateForm(forms.ModelForm):
             "programme",
             "department",
             "year_of_study",
-            "status",
         ]

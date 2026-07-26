@@ -15,9 +15,21 @@ PAGE HEADER
 
     <div>
 
-        <h1>Administrator Dashboard</h1>
+        <h1>
 
-        <p>Welcome back, <strong>{{ request.user.username }}</strong></p>
+            <i class="bi bi-speedometer2"></i>
+
+            Administrator Dashboard
+
+        </h1>
+
+        <p>
+
+            Welcome back,
+
+            <strong>{{ request.user.username }}</strong>
+
+        </p>
 
     </div>
 
@@ -30,43 +42,122 @@ STATISTICS
     
 <div class="dashboard-grid">
 
+    <!-- Total Students -->
     <div class="dashboard-card">
 
-        <h3> 👨‍🎓 All Students</h3>
+        <div class="dashboard-card-header">
 
-        <h1> {{ total_students }} </h1>
+            <div class="dashboard-icon students-icon">
+                <i class="bi bi-people-fill"></i>
+            </div>
+
+            <h1>{{ total_students }}</h1>
+
+        </div>
+
+        <p class="dashboard-label">
+            All Students
+        </p>
 
     </div>
 
+
+    <!-- Active Students -->
     <div class="dashboard-card">
 
-        <h3>✅ Active Students</h3>
+        <div class="dashboard-card-header">
 
-        <h1> {{ active_students }} </h1>
+            <div class="dashboard-icon active-icon">
+                <i class="bi bi-person-check-fill"></i>
+            </div>
+
+            <h1>{{ active_students }}</h1>
+
+        </div>
+
+        <p class="dashboard-label">
+            Active Students
+        </p>
 
     </div>
 
+
+    <!-- Deferred Students -->
     <div class="dashboard-card">
 
-        <h3>👨‍🎓 Deferred Students</h3>
+        <div class="dashboard-card-header">
 
-        <h1> {{ deferred_students }} </h1>
+            <div class="dashboard-icon deferred-icon">
+                <i class="bi bi-person-dash-fill"></i>
+            </div>
+
+            <h1>{{ deferred_students }}</h1>
+
+        </div>
+
+        <p class="dashboard-label">
+            Deferred Students
+        </p>
 
     </div>
 
+
+    <!-- Graduated Students -->
     <div class="dashboard-card">
 
-        <h3> 📄 Documents</h3>
+        <div class="dashboard-card-header">
 
-        <h1> {{ total_documents }} </h1>
+            <div class="dashboard-icon graduated-icon">
+                <i class="bi bi-mortarboard-fill"></i>
+            </div>
+
+            <h1>{{ graduated_students }}</h1>
+
+        </div>
+
+        <p class="dashboard-label">
+            Graduated Students
+        </p>
 
     </div>
 
+
+    <!-- Deactivated Students -->
     <div class="dashboard-card">
 
-        <h3>🔒 Encrypted Documents</h3>
+        <div class="dashboard-card-header">
 
-        <h1> {{ encrypted_documents }} </h1>
+            <div class="dashboard-icon deactivated-icon">
+                <i class="bi bi-person-x-fill"></i>
+            </div>
+
+            <h1>{{ deactivated_students }}</h1>
+
+        </div>
+
+        <p class="dashboard-label">
+            Deactivated Students
+        </p>
+
+    </div>
+
+
+    <!-- Documents -->
+    <div class="dashboard-card">
+
+        <div class="dashboard-card-header">
+
+            <div class="dashboard-icon document-icon">
+                <i class="bi bi-file-earmark-lock-fill"></i>
+            </div>
+
+            <h1>{{ total_documents }}</h1>
+
+        </div>
+
+        <p class="dashboard-label">
+            Encrypted Documents
+        </p>
 
     </div>
 
@@ -81,9 +172,16 @@ RECENT DOCUMENTS
 
     <div class="page-header">
 
-        <h2 class="card-title">Recent Uploads</h2>
+        <h2 class="card-title">
 
-        <a href="{% url 'document_list' %}" class="btn btn-primary btn-small">View All</a>
+            <i class="bi bi-clock-history"></i>
+
+            Recent Uploads
+
+        </h2>
+        <a href="{% url 'document_list' %}" class="btn btn-primary btn-small"><i class="bi bi-arrow-right-circle"></i>
+
+        View All</a>
 
     </div>
 
@@ -111,10 +209,20 @@ RECENT DOCUMENTS
 
             <tr>
 
-                <td> {{ document.student.full_name }} </td>
+                <td>
 
-                <td> {{ document.title }} </td>
+                <i class="bi bi-person-circle"></i>
 
+                {{ document.student.full_name }}
+
+                </td>
+                <td>
+
+                <i class="bi bi-file-earmark-pdf-fill text-danger"></i>
+
+                {{ document.title }}
+
+                </td>
                 <td>
 
                     {% if document.status == "ENCRYPTED" %}
@@ -144,8 +252,13 @@ RECENT DOCUMENTS
             {% empty %}
 
             <tr>
+                <td colspan="4" class="table-empty">
 
-                <td colspan="4">No uploaded documents.</td>
+                <i class="bi bi-folder2-open"></i>
+
+                No uploaded documents found.
+
+                </td>
 
             </tr>
 
@@ -166,9 +279,16 @@ RECENT STUDENTS
 
     <div class="page-header">
 
-        <h2 class="card-title">Recently Registered Students</h2>
+        <h2 class="card-title">
 
-        <a href="{% url 'student_list' %}" class="btn btn-primary btn-small">View All</a>
+        <i class="bi bi-person-lines-fill"></i>
+
+        Recently Registered Students
+
+        </h2>
+        <a href="{% url 'student_list' %}" class="btn btn-primary btn-small"><i class="bi bi-arrow-right-circle"></i>
+
+        View All</a>
 
     </div>
 
@@ -178,9 +298,9 @@ RECENT STUDENTS
 
             <tr>
 
-                <th>Admission Number</th>
-
                 <th>Name</th>
+
+                <th>Admission Number</th>
 
                 <th>Programme</th>
 
@@ -196,9 +316,16 @@ RECENT STUDENTS
 
             <tr>
 
-                <td> {{ student.admission_number }} </td>
+                
 
-                <td> {{ student.full_name }} </td>
+                <td> <i class="bi bi-person-circle"></i>
+
+                    {{ student.full_name }} </td>
+
+                <td><span class="badge badge-secondary">
+
+                    {{ student.admission_number }} </span> 
+                </td>
 
                 <td> {{ student.programme }} </td>
 
@@ -269,14 +396,34 @@ QUICK ACTIONS
 
     <div class="card-actions">
 
-        <a href="{% url 'register_student' %}" class="btn btn-primary">Register Student</a>
+        <a href="{% url 'register_student' %}" class="btn btn-primary">
 
-        <a href="{% url 'upload_document' %}" class="btn btn-success">Upload Document</a>
+        <i class="bi bi-person-plus-fill"></i>
 
-        <a href="{% url 'student_list' %}" class="btn btn-primary">Students</a>
+        Register Student
 
-        <a href="{% url 'document_list' %}" class="btn btn-secondary">Documents</a>
+        </a>
+        <a href="{% url 'upload_document' %}" class="btn btn-success">
 
+        <i class="bi bi-cloud-upload-fill"></i>
+
+        Upload Document
+
+        </a>
+        <a href="{% url 'student_list' %}" class="btn btn-primary">
+
+        <i class="bi bi-people-fill"></i>
+
+        Students
+
+        </a>
+        <a href="{% url 'document_list' %}" class="btn btn-secondary">
+
+        <i class="bi bi-folder-fill"></i>
+
+        Documents
+
+        </a>
     </div>
 
 </div>
@@ -294,25 +441,33 @@ SYSTEM STATUS
 
         <div class="security-item">
 
-            ✔ Encryption service operational
+            <i class="bi bi-shield-check text-success"></i>
+
+            Encryption service operational
 
         </div>
 
         <div class="security-item">
 
-            ✔ Database connection active
+            <i class="bi bi-database-check text-success"></i>
+
+            Database connection active
 
         </div>
 
         <div class="security-item">
 
-            ✔ Document storage available
+            <i class="bi bi-hdd-stack-fill text-success"></i>
+
+            Document storage available
 
         </div>
 
         <div class="security-item">
 
-            ✔ DocCrypt system running normally
+            <i class="bi bi-check-circle-fill text-success"></i>
+
+            DocCrypt system running normally
 
         </div>
 
@@ -321,4 +476,4 @@ SYSTEM STATUS
 </div>
 
 {% endblock %}
-```
+

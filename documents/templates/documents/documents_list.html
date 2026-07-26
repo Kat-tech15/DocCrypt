@@ -51,7 +51,7 @@ Documents
 
                 <th>Student</th>
 
-                <th>Title</th>
+                <th>Document</th>
 
                 <th>Status</th>
 
@@ -76,6 +76,7 @@ Documents
                 </td>
 
                 <td>
+                    <i class="bi bi-file-earmark-pdf-fill text-danger"></i>
 
                     {{ document.title }}
 
@@ -113,7 +114,7 @@ Documents
 
                     <a href="{% url 'document_detail' document.id %}" class="btn btn-primary btn-small">View</a>
 
-                    <a href="{% url 'edit_document' document.id %}" class="btn btn-success btn-small">Ed</a>
+                    <a href="{% url 'edit_document' document.id %}" class="btn btn-success btn-small">Edit</a>
 
                 </td>
 

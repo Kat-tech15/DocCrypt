@@ -122,9 +122,9 @@ def dashboard(request):
 
         active_students = Student.objects.filter(status=Student.Status.ACTIVE).count()
         deferred_students = Student.objects.filter(status =Student.Status.DEFERRED).count()
-        graduated_students = Student.objects.filter(status=Student.Status.GRADUATED)
+        graduated_students = Student.objects.filter(status=Student.Status.GRADUATED).count()
+        deactivated_students = Student.objects.filter(status=Student.Status.DEACTIVATED).count()
         total_documents = Document.objects.count()
-        encrypted_documents = Document.objects.filter(status=Document.Status.ENCRYPTED).count()
         recent_documents = Document.objects.select_related("student").order_by("-uploaded_at")[:5]
         recent_students = Student.objects.order_by("-id")[:5]
 
@@ -133,8 +133,8 @@ def dashboard(request):
             "active_students": active_students,
             "deferred_students": deferred_students,
             "graduated_students": graduated_students,
+            "deactivated_students": deactivated_students,
             "total_documents": total_documents,
-            "encrypted_documents": encrypted_documents,
             "recent_documents": recent_documents,
             "recent_students": recent_students,
 
