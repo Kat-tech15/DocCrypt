@@ -1,108 +1,249 @@
+
 {% extends "users/base.html" %}
 
 {% block title %}
-    Register
+Register Student
 {% endblock %}
 
 {% block content %}
+
 <div class="auth-container">
-    
-    <div class="auth-card">
 
-        <h2>Create Account</h2>
+    <div class="auth-card register-card">
 
-        <form method="POST">
+        <div class="auth-header">
 
-{% csrf_token %}
+            <i class="bi bi-person-plus-fill auth-logo"></i>
 
-<h3 class="form-section">
+            <h2>Register Student</h2>
 
-<i class="bi bi-person-vcard-fill"></i>
+            <p>
+                Create a secure student account for accessing DocCrypt.
+            </p>
 
-Personal Information
+        </div>
 
-</h3>
+        <form method="POST" novalidate>
 
-<div class="form-grid">
+            {% csrf_token %}
 
-<div class="form-group">
-{{ form.first_name.label_tag }}
-{{ form.first_name }}
-{{ form.first_name.errors }}
-</div>
+            <!-- Non-field Errors -->
 
-<div class="form-group">
-{{ form.last_name.label_tag }}
-{{ form.last_name }}
-{{ form.last_name.errors }}
-</div>
+            {% if form.non_field_errors %}
 
-<div class="form-group">
-{{ form.email.label_tag }}
-{{ form.email }}
-{{ form.email.errors }}
-</div>
+                <div class="form-alert form-alert-danger">
 
-<div class="form-group">
-{{ form.phone_number.label_tag }}
-{{ form.phone_number }}
-{{ form.phone_number.errors }}
-</div>
+                    {% for error in form.non_field_errors %}
 
-</div>
+                        <p>
 
-<h3 class="form-section">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
 
-<i class="bi bi-mortarboard-fill"></i>
+                            {{ error }}
 
-Academic Information
+                        </p>
 
-</h3>
+                    {% endfor %}
 
-<div class="form-grid">
+                </div>
 
-<div class="form-group">
-{{ form.admission_number.label_tag }}
-{{ form.admission_number }}
-{{ form.admission_number.errors }}
-</div>
+            {% endif %}
 
-<div class="form-group">
-{{ form.programme.label_tag }}
-{{ form.programme }}
-{{ form.programme.errors }}
-</div>
+            <!-- ==========================
+                 PERSONAL INFORMATION
+            =========================== -->
 
-<div class="form-group">
-{{ form.department.label_tag }}
-{{ form.department }}
-{{ form.department.errors }}
-</div>
+            <h3 class="form-section">
 
-<div class="form-group">
-{{ form.year_of_study.label_tag }}
-{{ form.year_of_study }}
-{{ form.year_of_study.errors }}
-</div>
+                <i class="bi bi-person-vcard-fill"></i>
 
-</div>
+                Personal Information
 
-<div class="form-actions">
+            </h3>
 
-<button class="btn btn-primary">
+            <div class="form-grid">
 
-<i class="bi bi-person-plus-fill"></i>
+                <div class="form-group">
 
-Register Student
+                    <label for="{{ form.first_name.id_for_label }}">
+                        <i class="bi bi-person-fill"></i>
+                        {{ form.first_name.label }}
+                    </label>
 
-</button>
+                    {{ form.first_name }}
 
-</div>
+                    {% for error in form.first_name.errors %}
+                        <small class="field-error">
+                            <i class="bi bi-exclamation-circle-fill"></i>
+                            {{ error }}
+                        </small>
+                    {% endfor %}
 
-</form>
+                </div>
+
+                <div class="form-group">
+
+                    <label for="{{ form.last_name.id_for_label }}">
+                        <i class="bi bi-person-fill"></i>
+                        {{ form.last_name.label }}
+                    </label>
+
+                    {{ form.last_name }}
+
+                    {% for error in form.last_name.errors %}
+                        <small class="field-error">
+                            <i class="bi bi-exclamation-circle-fill"></i>
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="{{ form.email.id_for_label }}">
+                        <i class="bi bi-envelope-fill"></i>
+                        {{ form.email.label }}
+                    </label>
+
+                    {{ form.email }}
+
+                    {% for error in form.email.errors %}
+                        <small class="field-error">
+                            <i class="bi bi-exclamation-circle-fill"></i>
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="{{ form.phone_number.id_for_label }}">
+                        <i class="bi bi-telephone-fill"></i>
+                        {{ form.phone_number.label }}
+                    </label>
+
+                    {{ form.phone_number }}
+
+                    {% for error in form.phone_number.errors %}
+                        <small class="field-error">
+                            <i class="bi bi-exclamation-circle-fill"></i>
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            <!-- ==========================
+                 ACADEMIC INFORMATION
+            =========================== -->
+
+            <h3 class="form-section">
+
+                <i class="bi bi-mortarboard-fill"></i>
+
+                Academic Information
+
+            </h3>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label for="{{ form.admission_number.id_for_label }}">
+                        <i class="bi bi-person-badge-fill"></i>
+                        {{ form.admission_number.label }}
+                    </label>
+
+                    {{ form.admission_number }}
+
+                    {% for error in form.admission_number.errors %}
+                        <small class="field-error">
+                            <i class="bi bi-exclamation-circle-fill"></i>
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="{{ form.programme.id_for_label }}">
+                        <i class="bi bi-book-fill"></i>
+                        {{ form.programme.label }}
+                    </label>
+
+                    {{ form.programme }}
+
+                    {% for error in form.programme.errors %}
+                        <small class="field-error">
+                            <i class="bi bi-exclamation-circle-fill"></i>
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="{{ form.department.id_for_label }}">
+                        <i class="bi bi-building-fill"></i>
+                        {{ form.department.label }}
+                    </label>
+
+                    {{ form.department }}
+
+                    {% for error in form.department.errors %}
+                        <small class="field-error">
+                            <i class="bi bi-exclamation-circle-fill"></i>
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="{{ form.year_of_study.id_for_label }}">
+                        <i class="bi bi-calendar3"></i>
+                        {{ form.year_of_study.label }}
+                    </label>
+
+                    {{ form.year_of_study }}
+
+                    {% for error in form.year_of_study.errors %}
+                        <small class="field-error">
+                            <i class="bi bi-exclamation-circle-fill"></i>
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary btn-block">
+
+                    <i class="bi bi-person-plus-fill"></i>
+
+                    Register Student
+
+                </button>
+
+            </div>
+
+        </form>
 
     </div>
-    
+
 </div>
 
 {% endblock %}
+

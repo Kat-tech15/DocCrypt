@@ -10,6 +10,15 @@ class Student(models.Model):
         GRADUATED = "GRADUATED", "Graduated"
         DEACTIVATED = "DEACTIVATED", "Deactivated"
 
+    class Year(models.IntegerChoices):
+        YEAR_1 = 1 ,"Year 1"
+        YEAR_2 = 2, "Year 2"
+        YEAR_3 = 3, "Year 3"
+        YEAR_4 = 4, "Year 4"
+
+
+
+
     user = models.OneToOneField(CustomUser,on_delete=models.CASCADE,related_name="student")
     admission_number = models.CharField(max_length=25,unique=True)
     first_name = models.CharField(max_length=50)
@@ -17,7 +26,7 @@ class Student(models.Model):
     phone_number = models.CharField(max_length=15,blank=True)
     programme = models.CharField(max_length=50)
     department = models.CharField(max_length=50)
-    year_of_study = models.PositiveSmallIntegerField(default=1)
+    year_of_study = models.IntegerField(choices=Year.choices, default=Year.YEAR_1)
     status = models.CharField(max_length=25,choices=Status.choices, default=Status.ACTIVE)
 
     class Meta:

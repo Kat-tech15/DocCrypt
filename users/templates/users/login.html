@@ -1,3 +1,4 @@
+
 {% extends "users/base.html" %}
 
 {% block title %}
@@ -17,36 +18,76 @@ Login
             <h2>Welcome Back</h2>
 
             <p>
-
                 Sign in to access DocCrypt.
-
             </p>
 
         </div>
 
-        <form method="POST">
+        <form method="POST" novalidate>
 
             {% csrf_token %}
 
+            <!-- Non-field errors -->
+
             {% if form.non_field_errors %}
-            <div class="form-errors">
-                {{ form.non_field_errors }}
-            </div>
+
+                <div class="form-alert form-alert-danger">
+
+                    {% for error in form.non_field_errors %}
+
+                        <p>
+
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+
+                            {{ error }}
+
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+
             {% endif %}
+
+            <!-- Admission Number -->
 
             <div class="form-group">
 
-                {{ form.username.label_tag }}
+                <label for="{{ form.username.id_for_label }}">
+
+                    <i class="bi bi-person-badge-fill"></i>
+
+                    {{ form.username.label }}
+
+                </label>
 
                 {{ form.username }}
 
-                {{ form.username.errors }}
+                {% for error in form.username.errors %}
+
+                    <small class="field-error">
+
+                        <i class="bi bi-exclamation-circle-fill"></i>
+
+                        {{ error }}
+
+                    </small>
+
+                {% endfor %}
 
             </div>
 
+            <!-- Password -->
+
             <div class="form-group">
 
-                {{ form.password.label_tag }}
+                <label for="{{ form.password.id_for_label }}">
+
+                    <i class="bi bi-lock-fill"></i>
+
+                    {{ form.password.label }}
+
+                </label>
 
                 <div class="password-wrapper">
 
@@ -63,13 +104,25 @@ Login
 
                 </div>
 
-                {{ form.password.errors }}
+                {% for error in form.password.errors %}
+
+                    <small class="field-error">
+
+                        <i class="bi bi-exclamation-circle-fill"></i>
+
+                        {{ error }}
+
+                    </small>
+
+                {% endfor %}
 
             </div>
 
             <div class="form-actions">
 
-                <button class="btn btn-primary">
+                <button
+                    type="submit"
+                    class="btn btn-primary btn-block">
 
                     <i class="bi bi-box-arrow-in-right"></i>
 
@@ -85,4 +138,30 @@ Login
 
 </div>
 
+<script>
+
+function togglePassword(button){
+
+    const input = button.previousElementSibling;
+    const icon = button.querySelector("i");
+
+    if(input.type === "password"){
+
+        input.type = "text";
+        icon.classList.remove("bi-eye");
+        icon.classList.add("bi-eye-slash");
+
+    }else{
+
+        input.type = "password";
+        icon.classList.remove("bi-eye-slash");
+        icon.classList.add("bi-eye");
+
+    }
+
+}
+
+</script>
+
 {% endblock %}
+

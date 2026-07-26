@@ -1,4 +1,5 @@
 from django import forms
+from student.models import Student
 
 FORM_CONTROL = {
     "class": "form-control",
@@ -71,10 +72,10 @@ class StudentRegistrationForm(forms.Form):
         ),
     )
 
-    year_of_study = forms.IntegerField(
-        min_value=1,
+    year_of_study = forms.ChoiceField(
+        choices=Student.Year.choices,
         label="Year of Study",
-        widget=forms.NumberInput(
+        widget=forms.Select(
             attrs={
                 **FORM_CONTROL,
                 "placeholder": "e.g. 4",
