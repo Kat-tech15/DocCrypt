@@ -13,6 +13,9 @@ from .services import EncryptionService
 from django.db.models import Q
 from django.core.paginator import Paginator
 from student.models import Student
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @require_http_methods(["GET", "POST"])
@@ -78,8 +81,15 @@ def upload_document(request, student_id=None):
                 document.student = selected_student
                 document.uploaded_by = request.user
 
+                if request.FILES.get("original_file"):
+                    document.original_filename = request.FILES["original_file"].name
+
                 document.save()
 
+                if document.original_file:
+                    document.original_file.delete(save=False)
+                    document.original_file = None
+                    document.save(update_fields=["original_file"])
                 # Encrypt the uploaded document.
                 EncryptionService.encrypt_document(document)
 
@@ -177,13 +187,17 @@ def download_document(request, document_id):
             password,
         )
 
-        filename = Path(document.original_file.name).name
+        filename = document.original_file
+
         response = HttpResponse(protected_pdf, content_type="application/pdf")
         response["Content-Disposition"] = (f'attachment; filename="{filename}"')
 
         return response
 
-    except Exception:
+    except Exception as e:
+
+        logger.exception("Document download failed.")
+
         messages.error( request, "Unable to download the requested document.")
 
         return redirect("my_documents")
@@ -222,10 +236,7 @@ def document_detail(request, document_id):
 
     context = {
         "document": document,
-        "original_filename": (
-            os.path.basename(document.original_file.name)
-            if document.original_file else "-"
-        ),
+        "original_filename": document.original_filename,
         "encrypted_filename": (
             os.path.basename(document.encrypted_file.name)
             if document.encrypted_file else "-"
@@ -233,6 +244,8 @@ def document_detail(request, document_id):
     }
 
     return render(request, "documents/document_detail.html", context)
+
+
 @login_required
 def edit_document(request, document_id):
 

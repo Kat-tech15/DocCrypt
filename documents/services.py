@@ -76,9 +76,11 @@ class EncryptionService:
 
             with transaction.atomic():
 
+                # Remove any previous encrypted file
                 if document.encrypted_file:
                     document.encrypted_file.delete(save=False)
 
+                # Save the new encrypted file
                 document.encrypted_file.save(
                     encrypted_filename,
                     ContentFile(encrypted_data),
@@ -89,6 +91,17 @@ class EncryptionService:
                 document.status = Document.Status.ENCRYPTED
                 document.encrypted_at = timezone.now()
                 document.save()
+
+                # --------------------------------------------------
+                # Delete the original PDF after successful encryption
+                # --------------------------------------------------
+                if document.original_file:
+
+                    document.original_file.delete(save=False)
+
+                    document.original_file = None
+
+                    document.save(update_fields=["original_file"])
 
             logger.info(
                 "Document '%s' encrypted successfully.", document.title)
