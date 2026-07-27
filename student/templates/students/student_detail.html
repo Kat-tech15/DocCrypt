@@ -8,8 +8,13 @@ Student Profile
 
 <div class="page-header">
 
-    <a href="{% url 'student_list' %}" class="btn btn-secondary">← Back to Students</a>
+<a href="{% url 'student_list' %}" class="btn btn-secondary">
 
+            <i class="bi bi-arrow-left-circle"></i>
+
+            Back to Students
+
+        </a>
 </div>
 
 <div class="card">
@@ -208,18 +213,21 @@ Student Profile
 
     <div class="action-buttons">
 
-        <a href="{% url 'edit_student' student.id %}" class="btn btn-primary">Edit Student</a>
+        <a href="{% url 'edit_student' student.id %}" class="btn btn-primary">
+            <i class="bi bi-pencil-square"></i>Edit Student</a>
 
         <a href="{% url 'upload_document_student' student.id %}" class="btn btn-success">
             <i class="bi bi-cloud-upload-fill"></i>Upload Document</a>
 
         {% if student.status == student.Status.ACTIVE %}
 
-            <a href="{% url 'toggle_student_status' student.id %}" class="btn btn-danger">Deactivate Student</a>
+            <a href="{% url 'toggle_student_status' student.id %}" class="btn btn-danger">
+                <i class="bi bi-person-x-fill"></i>Deactivate Student</a>
 
         {% else %}
 
-            <a href="{% url 'toggle_student_status' student.id %}" class="btn btn-success">Activate Student</a>
+            <a href="{% url 'toggle_student_status' student.id %}" class="btn btn-success">
+                <i class="bi bi-person-check-fill"></i>Activate Student</a>
 
         {% endif %}
 

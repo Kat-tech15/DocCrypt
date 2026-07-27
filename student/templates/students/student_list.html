@@ -18,18 +18,24 @@ Students
 
         <form method="get" class="search-form">
 
-            <input
-                type="text"
-                name="q"
-                value="{{ query }}"
-                placeholder="Search students..."
-                class="search-input"
-            >
+            <div class="search-wrapper">
+
+                <i class="bi bi-search search-icon"></i>
+
+                <input
+                    type="text"
+                    name="q"
+                    value="{{ query }}"
+                    placeholder="Search students..."
+                    class="search-input">
+
+            </div>
 
             <button
                 type="submit"
                 class="btn btn-primary">
 
+                <i class="bi bi-search"></i>
                 Search
 
             </button>

@@ -11,12 +11,22 @@ Document Details
 
     <div>
 
-        <h1>Document Details</h1>
+        <h1>
 
+            <i class="bi bi-file-earmark-lock-fill"></i>
+
+            Document Details
+
+        </h1>
     </div>
 
-    <a href="{% url 'document_list' %}" class="btn btn-primary"> ← Back to Documents </a>
+        <a href="{% url 'document_list' %}" class="btn btn-primary">
 
+            <i class="bi bi-arrow-left-circle"></i>
+
+            Back to Documents
+
+        </a>
 </div>
 
 
@@ -26,26 +36,51 @@ DOCUMENT INFORMATION
 
 <div class="card">
 
-    <h2 class="card-title"> {{ document.title }}</h2>
+    <h2 class="card-title">
 
+        <i class="bi bi-file-earmark-lock-fill"></i>
+
+        {{ document.title }}
+
+    </h2>
     <br>
 
     <div class="info-grid">
 
-        <div class="info-label"> Student</div>
+        <div class="info-label">
 
+            <i class="bi bi-person-fill"></i>
+
+            Student
+
+        </div>
         <div> {{ document.student.full_name }} </div>
 
-        <div class="info-label">  Admission Number </div>
+        <div class="info-label">
 
+            <i class="bi bi-person-vcard-fill"></i>
+
+            Admission Number
+
+        </div>
         <div> {{ document.student.admission_number }} </div>
 
-        <div class="info-label"> Programme </div>
+        <div class="info-label">
 
+            <i class="bi bi-mortarboard-fill"></i>
+
+            Programme
+
+        </div>
         <div> {{ document.student.programme }} </div>
 
-        <div class="info-label"> Uploaded By </div>
+        <div class="info-label">
 
+            <i class="bi bi-person-workspace"></i>
+
+            Uploaded By
+
+        </div>
         <div>
 
             {% if document.uploaded_by %}
@@ -58,8 +93,13 @@ DOCUMENT INFORMATION
 
         </div>
 
-        <div class="info-label"> Status </div>
+        <div class="info-label">
 
+            <i class="bi bi-shield-check"></i>
+
+            Status
+
+        </div>
         <div>
 
             {% if document.status == "ENCRYPTED" %}
@@ -82,12 +122,22 @@ DOCUMENT INFORMATION
 
         </div>
 
-        <div class="info-label"> Uploaded On </div>
+        <div class="info-label">
 
+            <i class="bi bi-calendar-event"></i>
+
+            Uploaded On
+
+        </div>
         <div> {{ document.uploaded_at|date:"d M Y H:i" }} </div>
 
-        <div class="info-label"> Encrypted On </div>
+        <div class="info-label">
 
+            <i class="bi bi-lock-fill"></i>
+
+            Encrypted ON
+
+        </div>
         <div>
 
             {% if document.encrypted_at %}
@@ -100,17 +150,40 @@ DOCUMENT INFORMATION
 
         </div>
 
-        <div class="info-label"> Original File </div>
+        <div class="info-label">
 
-        <div> {{ document.original_file.name }} </div>
+            <i class="bi bi-file-earmark-pdf-fill"></i>
 
-        <div class="info-label"> Encrypted File </div>
+            Original File
 
+        </div>
+        <div>
+            <span class="file-name">
+
+                <i class="bi bi-file-earmark-pdf-fill"></i>
+
+                {{ original_filename }}
+
+            </span>
+        </div>
+
+        <div class="info-label">
+
+            <i class="bi bi-file-earmark-lock-fill"></i>
+
+            Encrypted File
+
+        </div>
         <div>
 
             {% if document.encrypted_file %}
+            <span class="file-name">
 
-                {{ document.encrypted_file.name }}
+                <i class="bi bi-file-earmark-lock-fill"></i>
+
+                {{ encrypted_filename }}
+
+            </span>
 
             {% else %}
 
@@ -131,16 +204,45 @@ ADMINISTRATOR ACTIONS
 
 <div class="card">
 
-    <h2 class="card-title"> Administrator Actions </h2>
+    <h2 class="card-title">
 
+        <i class="bi bi-tools"></i>
+
+        Administrator Actions
+
+    </h2>
     <br>
 
-    <a href="{% url 'download_document' document.id %}" class="btn btn-success">Download</a>
+    <div class="card-actions">
 
-    <a href="{% url 'edit_document' document.id %}" class="btn btn-primary">Edit Document</a>
+        <a href="{% url 'download_document' document.id %}"
+        class="btn btn-success">
 
-    <a href="{% url 'student_detail' document.student.id %}" class="btn btn-secondary">View Student</a>
+            <i class="bi bi-download"></i>
 
+            Download
+
+        </a>
+
+        <a href="{% url 'edit_document' document.id %}"
+        class="btn btn-primary">
+
+            <i class="bi bi-pencil-square"></i>
+
+            Edit Document
+
+        </a>
+
+        <a href="{% url 'student_detail' document.student.id %}"
+        class="btn btn-secondary">
+
+            <i class="bi bi-person-vcard-fill"></i>
+
+            View Student
+
+        </a>
+
+    </div>
 </div>
 
 {% endblock %}

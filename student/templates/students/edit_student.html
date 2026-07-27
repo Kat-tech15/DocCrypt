@@ -24,7 +24,9 @@ Edit Student
 
         {{ form.as_p }}
 
-        <button type="submit" class="btn btn-success">Update</button>
+        <button type="submit" class="btn btn-success">
+            <i class="bi bi-pencil-square"></i>Edit Student
+        </button>
 
         <a href="{% url 'student_detail' student.id %}" class="btn btn-danger">Cancel</a>
 

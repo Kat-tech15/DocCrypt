@@ -220,10 +220,19 @@ def document_detail(request, document_id):
 
     document = get_object_or_404(Document, id=document_id)
 
-    context = {"document": document}
+    context = {
+        "document": document,
+        "original_filename": (
+            os.path.basename(document.original_file.name)
+            if document.original_file else "-"
+        ),
+        "encrypted_filename": (
+            os.path.basename(document.encrypted_file.name)
+            if document.encrypted_file else "-"
+        ),
+    }
 
     return render(request, "documents/document_detail.html", context)
-
 @login_required
 def edit_document(request, document_id):
 
