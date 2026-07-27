@@ -197,6 +197,7 @@ nav a.active{
 .btn-primary{
     background:#1976d2;
     color:white;
+    width: fit-content;
 }
 
 .btn-success{
@@ -212,7 +213,6 @@ nav a.active{
 .btn-secondary{
     background:#616161;
     color:white;
-    width: fit-content;
 }
 
 .btn-outline{

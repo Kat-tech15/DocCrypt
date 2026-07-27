@@ -24,7 +24,8 @@ def students_list(request):
             Q(first_name__icontains=query) |
             Q(last_name__icontains=query) |
             Q(programme__icontains=query) |
-            Q(department__icontains=query)
+            Q(department__icontains=query) |
+            Q(status__icontains=query)
         )
 
     paginator = Paginator(students, 10)

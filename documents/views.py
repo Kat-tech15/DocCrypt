@@ -187,7 +187,7 @@ def download_document(request, document_id):
             password,
         )
 
-        filename = document.original_file
+        filename = document.original_filename
 
         response = HttpResponse(protected_pdf, content_type="application/pdf")
         response["Content-Disposition"] = (f'attachment; filename="{filename}"')
@@ -236,12 +236,12 @@ def document_detail(request, document_id):
 
     context = {
         "document": document,
-        "original_filename": document.original_filename,
+        "original_filename": document.original_file,        
         "encrypted_filename": (
-            os.path.basename(document.encrypted_file.name)
-            if document.encrypted_file else "-"
-        ),
-    }
+                    os.path.basename(document.encrypted_file.name)
+                    if document.encrypted_file else "-"
+                ),
+            }
 
     return render(request, "documents/document_detail.html", context)
 
