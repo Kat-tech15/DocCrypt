@@ -1,0 +1,108 @@
+{% extends "users/base.html" %}
+
+{% block title %}
+Preview - {{ document.title }}
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h1>
+
+            <i class="bi bi-file-earmark-pdf-fill"></i>
+
+            {{ document.title }}
+
+        </h1>
+
+        <p>
+
+            Secure Document Preview
+
+        </p>
+
+    </div>
+
+    <a href="{% url 'document_detail' document.id %}"
+       class="btn btn-primary">
+
+        <i class="bi bi-arrow-left-circle"></i>
+
+        Back
+
+    </a>
+
+</div>
+
+
+<div class="card">
+
+    <div class="info-grid">
+
+        <div class="info-label">
+
+            Student
+
+        </div>
+
+        <div>
+
+            {{ document.student.full_name }}
+
+        </div>
+
+        <div class="info-label">
+
+            Admission Number
+
+        </div>
+
+        <div>
+
+            {{ document.student.admission_number }}
+
+        </div>
+
+        <div class="info-label">
+
+            Programme
+
+        </div>
+
+        <div>
+
+            {{ document.student.programme }}
+
+        </div>
+
+        <div class="info-label">
+
+            Uploaded
+
+        </div>
+
+        <div>
+
+            {{ document.uploaded_at|date:"d M Y H:i" }}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="card">
+
+    <iframe
+        src="{{ preview_url }}"
+        class="document-preview-frame">
+
+    </iframe>
+
+</div>
+
+{% endblock %}

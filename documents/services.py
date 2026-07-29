@@ -87,21 +87,23 @@ class EncryptionService:
                     save=False,
                 )
 
+                #Save the original filename before deleting the file
+                document.original_filename = Path(document.original_file.name).name
+
+                #Update encryption metadata
                 document.encrypted_key = wrapped_key
                 document.status = Document.Status.ENCRYPTED
                 document.encrypted_at = timezone.now()
+
+                #Save everything in one database write
                 document.save()
 
-                # --------------------------------------------------
-                # Delete the original PDF after successful encryption
-                # --------------------------------------------------
-                if document.original_file:
+                #Delete the original PDF from storage
+                document.original_file.delete(save=False)
 
-                    document.original_file.delete(save=False)
-
-                    document.original_file = None
-
-                    document.save(update_fields=["original_file"])
+                #Remove the database refrence
+                document.original_file = None
+                document.save(update_fields=["original_file"])
 
             logger.info(
                 "Document '%s' encrypted successfully.", document.title)

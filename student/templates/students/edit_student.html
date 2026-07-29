@@ -5,33 +5,47 @@ Edit Student
 {% endblock %}
 
 {% block content %}
+<div class="auth-container">
+    <div class="auth-card">
 
-<div class="card">
+        <h2>Edit Student</h2>
 
-    <h2>Edit Student</h2>
+        <p>
+            {{ student.full_name }}
 
-    <p>
-        {{ student.full_name }}
+            <br>
 
-        <br>
+            {{ student.admission_number }}
+        </p>
 
-        {{ student.admission_number }}
-    </p>
+        <form method="post">
 
-    <form method="post">
+            {% csrf_token %}
 
-        {% csrf_token %}
+            {{ form.as_p }}
 
-        {{ form.as_p }}
+            <div class="form-actions">
 
-        <button type="submit" class="btn btn-success">
-            <i class="bi bi-pencil-square"></i>Edit Student
-        </button>
+                <a href="{% url 'student_detail' student.id %}" class="btn btn-danger btn-equal">
 
-        <a href="{% url 'student_detail' student.id %}" class="btn btn-danger">Cancel</a>
+                    <i class="bi bi-x-circle"></i>
 
-    </form>
+                    Cancel
 
+                </a>
+
+                <button type="submit" class="btn btn-success btn-equal">
+
+                    <i class="bi bi-check-circle"></i>
+
+                    Save Changes
+
+                </button>
+
+            </div>
+        </form>
+
+    </div>
 </div>
 
 {% endblock %}

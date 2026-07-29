@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+from django.views.decorators.clickjacking import xframe_options_exempt
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
@@ -14,6 +15,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from student.models import Student
 import logging
+from django.urls import reverse
 
 logger = logging.getLogger(__name__)
 
@@ -86,10 +88,6 @@ def upload_document(request, student_id=None):
 
                 document.save()
 
-                if document.original_file:
-                    document.original_file.delete(save=False)
-                    document.original_file = None
-                    document.save(update_fields=["original_file"])
                 # Encrypt the uploaded document.
                 EncryptionService.encrypt_document(document)
 
@@ -187,7 +185,7 @@ def download_document(request, document_id):
             password,
         )
 
-        filename = document.original_filename
+        filename = document.original_filename or "document.pdf"
 
         response = HttpResponse(protected_pdf, content_type="application/pdf")
         response["Content-Disposition"] = (f'attachment; filename="{filename}"')
@@ -201,7 +199,65 @@ def download_document(request, document_id):
         messages.error( request, "Unable to download the requested document.")
 
         return redirect("my_documents")
-    
+
+
+@require_http_methods(["GET"])
+@login_required
+@xframe_options_exempt
+def preview_document(request, document_id):
+
+    if not request.user.is_admin:
+        return HttpResponseForbidden()
+
+    print(f"Requested ID: {document_id}")
+
+    document = get_object_or_404(Document, id=document_id)
+
+    print("Document:", document.title)
+
+    pdf_data = EncryptionService.decrypt_document(
+        document,
+        document.student.admission_number,
+    )
+
+    print("PDF bytes:", len(pdf_data))
+
+    response = HttpResponse(
+        pdf_data,
+        content_type="application/pdf"
+    )
+
+    response["Content-Disposition"] = 'inline; filename="preview.pdf"'
+
+    return response
+
+@login_required
+def document_preview(request, document_id):
+    """
+    Display the document preview page.
+    """
+
+    if not request.user.is_admin:
+        return HttpResponseForbidden(
+            "Only administrators can preview documents."
+        )
+
+    document = get_object_or_404(Document, id=document_id)
+
+    context = {
+        "document": document,
+        "preview_url": reverse(
+            "preview_document",
+            args=[document.id],
+        ),
+    }
+
+    return render(
+        request,
+        "documents/document_preview.html",
+        context,
+    )
+
 @login_required
 def document_list(request):
     if not request.user.is_admin:

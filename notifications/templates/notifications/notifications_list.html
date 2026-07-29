@@ -1,0 +1,107 @@
+{% extends "users/base.html" %}
+
+{% block title %}
+Notifications
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h1>
+
+            <i class="bi bi-bell-fill"></i>
+
+            Notifications
+
+        </h1>
+
+        <p>
+            View your recent activity.
+        </p>
+
+    </div>
+
+</div>
+
+<div class="card">
+
+{% if notifications %}
+
+    {% for notification in notifications %}
+
+        <div class="notification-item notification-{{ notification.notification_type|lower }}">
+
+            <div class="notification-icon">
+
+                {% if notification.notification_type == "SUCCESS" %}
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                {% elif notification.notification_type == "WARNING" %}
+
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+
+                {% elif notification.notification_type == "ERROR" %}
+
+                    <i class="bi bi-x-circle-fill"></i>
+
+                {% else %}
+
+                    <i class="bi bi-info-circle-fill"></i>
+
+                {% endif %}
+
+            </div>
+
+            <div class="notification-content">
+
+                <strong>{{ notification.title }}</strong>
+
+                <p>{{ notification.message }}</p>
+
+                <small>
+
+                    <i class="bi bi-clock"></i>
+
+                    {{ notification.created_at|timesince }} ago
+
+                </small>
+
+            </div>
+
+            {% if not notification.is_read %}
+
+                <span class="badge badge-primary">
+
+                    New
+
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <div class="empty-state">
+
+        <i class="bi bi-bell-slash"></i>
+
+        <h3>No notifications yet</h3>
+
+        <p>
+            Notifications will appear here when important events occur.
+        </p>
+
+    </div>
+
+{% endif %}
+
+</div>
+
+{% endblock %}

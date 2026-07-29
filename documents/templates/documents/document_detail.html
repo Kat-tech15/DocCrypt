@@ -216,21 +216,22 @@ ADMINISTRATOR ACTIONS
         Administrator Actions
 
     </h2>
+
     <br>
 
     <div class="card-actions">
 
-        <a href="{% url 'download_document' document.id %}"
-        class="btn btn-success">
+        <a href="{% url 'document_preview' document.id %}"
+            class="btn btn-success">
 
-            <i class="bi bi-download"></i>
+            <i class="bi bi-eye-fill"></i>
 
-            Download
+            Preview
 
         </a>
 
         <a href="{% url 'edit_document' document.id %}"
-        class="btn btn-primary">
+           class="btn btn-primary">
 
             <i class="bi bi-pencil-square"></i>
 
@@ -239,7 +240,7 @@ ADMINISTRATOR ACTIONS
         </a>
 
         <a href="{% url 'student_detail' document.student.id %}"
-        class="btn btn-secondary">
+           class="btn btn-secondary">
 
             <i class="bi bi-person-vcard-fill"></i>
 
@@ -248,6 +249,7 @@ ADMINISTRATOR ACTIONS
         </a>
 
     </div>
+
 </div>
 
 {% endblock %}

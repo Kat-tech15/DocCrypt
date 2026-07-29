@@ -65,6 +65,7 @@
 
                 <div class="user-menu">
 
+
                     <span class="username">
 
                         <i class="bi bi-person-circle"></i>
@@ -73,6 +74,122 @@
 
                     </span>
 
+                    <div class="notification-dropdown">
+
+                        <button
+                            class="notification-btn"
+                            onclick="toggleNotifications()">
+
+                            <i class="bi bi-bell-fill"></i>
+
+                            {% if unread_notification_count %}
+
+                                <span class="notification-count">
+
+                                    {{ unread_notification_count }}
+
+                                </span>
+
+                            {% endif %}
+
+                        </button>
+
+                        <div
+                            id="notificationMenu"
+                            class="notification-menu">
+
+                            <h4>
+
+                                <i class="bi bi-bell-fill"></i>
+
+                                Notifications
+
+                            </h4>
+
+                            {% if unread_notifications %}
+
+                                {% for notification in unread_notifications %}
+
+                                    <div class="notification-item">
+
+                                        <div class="notification-icon">
+
+                                            {% if notification.notification_type == "SUCCESS" %}
+
+                                                <i class="bi bi-check-circle-fill"></i>
+
+                                            {% elif notification.notification_type == "WARNING" %}
+
+                                                <i class="bi bi-exclamation-triangle-fill"></i>
+
+                                            {% elif notification.notification_type == "ERROR" %}
+
+                                                <i class="bi bi-x-circle-fill"></i>
+
+                                            {% else %}
+
+                                                <i class="bi bi-info-circle-fill"></i>
+
+                                            {% endif %}
+
+                                        </div>
+
+                                        <div class="notification-content">
+
+                                            <strong>
+
+                                                {{ notification.title }}
+
+                                            </strong>
+
+                                            <p>
+
+                                                {{ notification.message }}
+
+                                            </p>
+
+                                            <small>
+
+                                                <i class="bi bi-clock"></i>
+
+                                                {{ notification.created_at|timesince }} ago
+
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+                                {% endfor %}
+
+                                <div class="notification-footer">
+
+                                    <a href="{% url 'notification_list' %}">
+
+                                        <i class="bi bi-list-ul"></i>
+
+                                        View All
+
+                                    </a>
+
+                                </div>
+
+                            {% else %}
+
+                                <div class="notification-empty">
+
+                                    <i class="bi bi-check-circle-fill"></i>
+
+                                    <p>No new notifications</p>
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+                    
                     <form method="post" action="{% url 'logout' %}" class="logout-form">
 
                         {% csrf_token %}
@@ -231,6 +348,29 @@
 
         }
 
+        function toggleNotifications(){
+
+            document
+                .getElementById("notificationMenu")
+                .classList.toggle("show");
+
+        }
+
+        window.onclick = function(event){
+
+            if(!event.target.closest(".notification-dropdown")){
+
+                const menu = document.getElementById("notificationMenu");
+
+                if(menu){
+
+                    menu.classList.remove("show");
+
+                }
+
+            }
+
+        }
     </script>
 
 </body>
