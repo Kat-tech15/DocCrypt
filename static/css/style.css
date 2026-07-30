@@ -1085,6 +1085,11 @@ textarea:focus{
     background:#f8f9fa;
 }
 
+.notification-page{
+    max-width: 850px;
+    margin: 0 auto;
+}
+
 .notification-icon{
     width:42px;
     height:42px;

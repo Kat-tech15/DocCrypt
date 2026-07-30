@@ -15,6 +15,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from student.models import Student
 import logging
+from notifications.models import Notification
 from django.urls import reverse
 
 logger = logging.getLogger(__name__)
@@ -90,6 +91,13 @@ def upload_document(request, student_id=None):
 
                 # Encrypt the uploaded document.
                 EncryptionService.encrypt_document(document)
+
+                Notification.objects.create(
+                    recipient=selected_student.user,
+                    title="New Document Upload",
+                    message=(f"A new document '{document.title}' has been uploaded to your account."),
+                    notification_type=Notification.Type.SUCCESS,
+                )
 
             messages.success(
                 request,

@@ -82,11 +82,11 @@
 
                             <i class="bi bi-bell-fill"></i>
 
-                            {% if unread_notification_count %}
+                            {% if notification_count %}
 
                                 <span class="notification-count">
 
-                                    {{ unread_notification_count }}
+                                    {{ notification_count }}
 
                                 </span>
 
@@ -106,9 +106,9 @@
 
                             </h4>
 
-                            {% if unread_notifications %}
+                            {% if notifications %}
 
-                                {% for notification in unread_notifications %}
+                                {% for notification in notifications %}
 
                                     <div class="notification-item">
 
@@ -328,49 +328,77 @@
         });
         function togglePassword(button){
 
-        const input=button.previousElementSibling;
+            const input=button.previousElementSibling;
 
-        const icon=button.querySelector("i");
+            const icon=button.querySelector("i");
 
-        if(input.type==="password"){
+            if(input.type==="password"){
 
-        input.type="text";
+            input.type="text";
 
-        icon.className="bi bi-eye-slash";
+            icon.className="bi bi-eye-slash";
 
-        }else{
+            }else{
 
-        input.type="password";
+            input.type="password";
 
-        icon.className="bi bi-eye";
-
-        }
-
-        }
-
-        function toggleNotifications(){
-
-            document
-                .getElementById("notificationMenu")
-                .classList.toggle("show");
-
-        }
-
-        window.onclick = function(event){
-
-            if(!event.target.closest(".notification-dropdown")){
-
-                const menu = document.getElementById("notificationMenu");
-
-                if(menu){
-
-                    menu.classList.remove("show");
-
-                }
+            icon.className="bi bi-eye";
 
             }
 
         }
+
+        function toggleNotifications() {
+
+            const menu = document.getElementById("notificationMenu");
+
+            menu.classList.toggle("show");
+
+            if (menu.classList.contains("show")) {
+
+                fetch("{% url 'mark_notifications_read' %}", {
+
+                    method: "GET",
+
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    }
+
+                })
+                .then(response => response.json())
+                .then(data => {
+
+                    if (data.success) {
+
+                        const badge = document.querySelector(".notification-count");
+
+                        if (badge) {
+
+                            badge.remove();
+
+                        }
+
+                    }
+
+                });
+
+            }
+
+        }
+
+        window.addEventListener("click", function(event){
+
+            const dropdown = document.querySelector(".notification-dropdown");
+
+            if (!dropdown.contains(event.target)) {
+
+                document
+                    .getElementById("notificationMenu")
+                    .classList.remove("show");
+
+            }
+
+        });
     </script>
 
 </body>
