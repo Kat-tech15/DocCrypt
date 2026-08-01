@@ -15,7 +15,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from student.models import Student
 import logging
-from notifications.models import Notification
+from notifications.services import NotificationService
 from django.urls import reverse
 
 logger = logging.getLogger(__name__)
@@ -91,13 +91,10 @@ def upload_document(request, student_id=None):
 
                 # Encrypt the uploaded document.
                 EncryptionService.encrypt_document(document)
-
-                Notification.objects.create(
-                    recipient=selected_student.user,
-                    title="New Document Upload",
-                    message=(f"A new document '{document.title}' has been uploaded to your account."),
-                    notification_type=Notification.Type.SUCCESS,
-                )
+                NotificationService.document_uploaded(
+                    document,
+                    request.user
+                    )
 
             messages.success(
                 request,
@@ -108,7 +105,8 @@ def upload_document(request, student_id=None):
                 "student_detail",
                 student_id=selected_student.id,
             )
-
+        
+    
         except Exception:
 
             messages.error(
@@ -126,6 +124,8 @@ def upload_document(request, student_id=None):
             "student": student,
         },
     )
+
+
 @require_http_methods(["GET"])
 @login_required
 def my_documents(request):
@@ -160,7 +160,7 @@ def download_document(request, document_id):
     """
 
     document = get_object_or_404(Document, id=document_id,)
-
+    
     if (
         request.user.role == request.user.Role.STUDENT
         and document.student.user != request.user
@@ -198,6 +198,8 @@ def download_document(request, document_id):
         response = HttpResponse(protected_pdf, content_type="application/pdf")
         response["Content-Disposition"] = (f'attachment; filename="{filename}"')
 
+        NotificationService.document_downloaded(document)
+
         return response
 
     except Exception as e:
@@ -215,7 +217,7 @@ def download_document(request, document_id):
 def preview_document(request, document_id):
 
     if not request.user.is_admin:
-        return HttpResponseForbidden()
+        return HttpResponseForbidden("Only administrators can preview documents.")
 
     print(f"Requested ID: {document_id}")
 
@@ -227,13 +229,16 @@ def preview_document(request, document_id):
         document,
         document.student.admission_number,
     )
-
-    print("PDF bytes:", len(pdf_data))
+    NotificationService.document_previewed(
+        document,
+        request.user,
+    )
 
     response = HttpResponse(
         pdf_data,
         content_type="application/pdf"
     )
+
 
     response["Content-Disposition"] = 'inline; filename="preview.pdf"'
 
@@ -259,6 +264,11 @@ def document_preview(request, document_id):
             args=[document.id],
         ),
     }
+
+    NotificationService.document_previewed(
+        document,
+        request.user,
+    )
 
     return render(
         request,
@@ -321,12 +331,17 @@ def edit_document(request, document_id):
         instance=document,
     )
 
+
     if request.method == "POST" and form.is_valid():
 
+
         form.save()
+
+        NotificationService.document_updated(document)
 
         messages.info(request, "Document updated successfully.")
 
         return redirect("document_detail", document_id=document.id)
+
 
     return render(request, "documents/edit_document.html", {"form": form, "document": document})

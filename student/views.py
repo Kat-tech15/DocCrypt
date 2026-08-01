@@ -6,6 +6,7 @@ from django.contrib import messages
 from .forms import StudentUpdateForm
 from django.db.models import Q
 from django.core.paginator import Paginator
+from notifications.services import NotificationService
 
 @login_required
 def students_list(request):
@@ -73,5 +74,7 @@ def edit_student(request, student_id):
 
     else:
         form = StudentUpdateForm(instance=student)
+
+    NotificationService.profile_updated(student)
 
     return render(request, "students/edit_student.html", {"form": form, "student": student})

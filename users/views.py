@@ -7,7 +7,7 @@ from django.http import HttpResponseForbidden
 from documents.models import Document
 from student.models import Student
 from django.contrib import messages
-
+from notifications.services import NotificationService
 from .forms import (
     ChangePasswordForm,
     LoginForm,
@@ -107,9 +107,12 @@ def change_password(request):
             ]
         )
 
+        NotificationService.password_changed(request.user)
+
         login(request, request.user)
 
         return redirect("dashboard")
+    
 
     return render(request, "users/change_password.html", {"form": form})
 
@@ -171,12 +174,16 @@ def toggle_student_status(request, student_id):
     if request.method == "POST":
         if student.status == Student.Status.ACTIVE:
             student.status = Student.Status.DEACTIVATED
-           
+
+            NotificationService.account_deactivated(student)
 
             messages.info(request, f"{student.full_name} has been deactivated.")
 
         else:
             student.status = Student.Status.ACTIVE
+
+            NotificationService.account_activated(student)
+            
             messages.info(request, f"{student.full_name} has been activated.")
 
         student.save()
