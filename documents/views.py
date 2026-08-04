@@ -198,7 +198,7 @@ def download_document(request, document_id):
         response = HttpResponse(protected_pdf, content_type="application/pdf")
         response["Content-Disposition"] = (f'attachment; filename="{filename}"')
 
-        NotificationService.document_downloaded(document)
+        NotificationService.document_downloaded(document )
 
         return response
 

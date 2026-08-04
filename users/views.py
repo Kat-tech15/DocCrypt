@@ -14,6 +14,9 @@ from .forms import (
     StudentRegistrationForm,
 )
 from .services import AccountService
+import json
+from django.db.models import Count
+from django.db.models.functions import TruncMonth
 
 
 def home(request):
@@ -111,7 +114,7 @@ def change_password(request):
 
         login(request, request.user)
 
-        return redirect("dashboard")
+        return redirect("login")
     
 
     return render(request, "users/change_password.html", {"form": form})
@@ -130,6 +133,42 @@ def dashboard(request):
         total_documents = Document.objects.count()
         recent_documents = Document.objects.select_related("student").order_by("-uploaded_at")[:5]
         recent_students = Student.objects.order_by("-id")[:5]
+        document_uploads = (
+            Student.objects.annotate(upload_count=Count("documents"))
+            .values("admission_number", "upload_count")
+            .order_by("-upload_count")[:10]
+        )
+        document_upload_chart = {
+            "labels": [item["admission_number"] for item in document_uploads],
+            "counts": [item["upload_count"] for item in document_uploads],
+        }
+
+        programme_distribution = (
+            Student.objects
+            .values("programme")
+            .annotate(total=Count("id"))
+            .order_by("-total")
+        )
+        programme_chart = {
+            "labels": [item["programme"] for item in programme_distribution],
+            "counts": [item["total"] for item in programme_distribution],
+        }
+
+        registrations = (
+            Student.objects
+            .annotate(month=TruncMonth("created_at"))
+            .values("month")
+            .annotate(total=Count("id"))
+            .order_by("month")
+        )
+        regisration_chart = {
+            "lables": [
+                item["month"].strftime("%b %Y") for item in registrations
+            ],
+            "counts": [
+                item["total"] for item in registrations
+            ],
+        }
 
         context = {
             "total_students": total_students,
@@ -140,6 +179,17 @@ def dashboard(request):
             "total_documents": total_documents,
             "recent_documents": recent_documents,
             "recent_students": recent_students,
+
+            "student_status_chart": [
+                active_students,
+                deferred_students,
+                graduated_students,
+                deactivated_students,
+            ],
+
+            "document_upload_chart": json.dumps(document_upload_chart),
+            "programme_chart": json.dumps(programme_chart),
+            "registration_chart": json.dumps(regisration_chart),
 
         }
         return render(request, "users/admin_dashboard.html", context)

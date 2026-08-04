@@ -28,6 +28,7 @@ class Student(models.Model):
     department = models.CharField(max_length=50)
     year_of_study = models.IntegerField(choices=Year.choices, default=Year.YEAR_1)
     status = models.CharField(max_length=25,choices=Status.choices, default=Status.ACTIVE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ["admission_number"]

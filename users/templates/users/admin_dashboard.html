@@ -163,7 +163,97 @@ STATISTICS
 
 </div>
 
+<div class="dashboard-charts">
+    <div class="card">
+        <div class="page-header">
 
+            <h2 class="card-title">
+                <i class="bi bi-pie-chart-fill"></i>
+                Student Status Distribution
+            </h2>
+
+        </div>
+
+        <div class="chart-wrapper">
+            <canvas id="studentStatusChart"></canvas>
+        </div>
+
+        <div class="chart-legend">
+
+            <span class="legend-item">
+                <span class="legend-color active"></span>
+                Active
+            </span>
+
+            <span class="legend-item">
+                <span class="legend-color deferred"></span>
+                Deferred
+            </span>
+
+            <span class="legend-item">
+                <span class="legend-color graduated"></span>
+                Graduated
+            </span>
+
+            <span class="legend-item">
+                <span class="legend-color deactivated"></span>
+                Deactivated
+            </span>
+
+        </div>
+    </div>
+    <div class="card">
+
+        <div class="page-header">
+
+            <h2 class="card-title">
+
+                <i class="bi bi-bar-chart-fill"></i>
+
+                Documents Uploaded per Student
+
+            </h2>
+
+        </div>
+
+        <canvas id="documentUploadChart"></canvas>
+
+    </div>
+    <div class="card">
+
+        <div class="page-header">
+
+            <h2 class="card-title">
+
+                <i class="bi bi-mortarboard-fill"></i>
+
+                Students by Programme
+
+            </h2>
+
+        </div>
+
+        <canvas id="programmeChart"></canvas>
+
+    </div>
+    <div class="card">
+
+        <div class="page-header">
+
+            <h2 class="card-title">
+
+                <i class="bi bi-person-plus-fill"></i>
+
+                Student Registrations
+
+            </h2>
+
+        </div>
+
+        <canvas id="registrationChart"></canvas>
+
+    </div>
+</div>
 <!-- =====================================
 RECENT DOCUMENTS
 ====================================== -->
@@ -474,6 +564,290 @@ SYSTEM STATUS
     </div>
 
 </div>
+
+<script>
+
+const ctx = document.getElementById("studentStatusChart");
+
+new Chart(ctx, {
+
+    type: "doughnut",
+
+    data: {
+
+        labels: [
+            "Active",
+            "Deferred",
+            "Graduated",
+            "Deactivated"
+        ],
+
+        datasets: [{
+
+            data: {{ student_status_chart|safe }},
+
+            backgroundColor: [
+                "#198754",
+                "#ffc107",
+                "#0d6efd",
+                "#dc3545"
+            ],
+
+            borderWidth: 2
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        cutout: "60%",
+
+        plugins: {
+
+            legend: {
+
+                display: false
+
+            },
+
+            tooltip: {
+
+                backgroundColor: "#1f2937",
+
+                titleColor: "#fff",
+
+                bodyColor: "#fff",
+
+                padding: 5,
+
+                cornerRadius: 4
+
+            }
+
+        }
+
+    }
+
+});
+
+const uploadData = {{ document_upload_chart|safe }};
+
+new Chart(
+    document.getElementById("documentUploadChart"),
+    {
+
+        type: "bar",
+
+        data: {
+
+            labels: uploadData.labels,
+
+            datasets: [{
+
+                label: "Documents",
+
+                data: uploadData.counts,
+
+                backgroundColor: "#0d6efd",
+
+                borderRadius: 4,
+
+                borderSkipped: false,
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            plugins: {
+
+                legend: {
+
+                    display: false,
+
+                }
+
+            },
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true,
+
+                    ticks: {
+
+                        precision: 0,
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+);
+
+const programmeData = {{ programme_chart|safe }};
+
+new Chart(
+
+    document.getElementById("programmeChart"),
+
+    {
+
+        type: "bar",
+
+        data: {
+
+            labels: programmeData.labels,
+
+            datasets: [{
+
+                data: programmeData.counts,
+
+                backgroundColor: [
+
+                    "#0d6efd",
+                    "#198754",
+                    "#ffc107",
+                    "#dc3545",
+                    "#6f42c1",
+                    "#20c997",
+                    "#fd7e14"
+
+                ],
+
+                borderRadius: 4,
+
+                borderSkipped: false,
+
+            }]
+
+        },
+
+        options: {
+
+            indexAxis: "y",
+
+            responsive: true,
+
+            plugins: {
+
+                legend: {
+
+                    display: false
+
+                }
+
+            },
+
+            scales: {
+
+                x: {
+
+                    beginAtZero: true,
+
+                    ticks: {
+
+                        precision: 0
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+);
+
+const registrationData = {{ registration_chart|safe }};
+
+new Chart(
+
+    document.getElementById("registrationChart"),
+
+    {
+
+        type: "line",
+
+        data: {
+
+            labels: registrationData.labels,
+
+            datasets: [{
+
+                label: "Registrations",
+
+                data: registrationData.counts,
+
+                borderColor: "#0d6efd",
+
+                backgroundColor: "rgba(13,110,253,0.15)",
+
+                fill: true,
+
+                tension: 0.35,
+
+                pointRadius: 5,
+
+                pointHoverRadius: 7,
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            plugins: {
+
+                legend: {
+
+                    display: false
+
+                }
+
+            },
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true,
+
+                    ticks: {
+
+                        precision: 0
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+);
+
+</script>
 
 {% endblock %}
 
