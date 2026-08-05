@@ -11,9 +11,7 @@ from notifications.services import NotificationService
 @login_required
 def students_list(request):
     if not request.user.is_admin:
-        return HttpResponseForbidden("Only administrators can access this page.")
-
-    
+        return render(request, "errors/403.html", status=403)
 
     students = Student.objects.select_related("user").all().order_by("admission_number")
 
@@ -42,7 +40,7 @@ def students_list(request):
 def student_detail(request, student_id):
     
     if not request.user.is_admin:
-        return HttpResponseForbidden("This page is accessible to administrators only.")
+        return render(request, "errors/403.html", status=403)
     
     student = get_object_or_404(
         Student.objects.select_related("user"), pk=student_id
@@ -58,8 +56,9 @@ def student_detail(request, student_id):
 
 @login_required
 def edit_student(request, student_id):
+    
     if not request.user.is_admin:
-        return HttpResponseForbidden(request, "You are not authorized to access this page.")
+        return render(request, "errors/403.html", status=403)
 
     student = get_object_or_404(Student, id=student_id)
 

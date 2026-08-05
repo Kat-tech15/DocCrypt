@@ -29,10 +29,8 @@ def upload_document(request, student_id=None):
     """
 
     if not request.user.is_admin:
-        return HttpResponse(
-            "Only administrators are allowed to upload documents.",
-            status=403,
-        )
+        return render(request, "errors/403.html", status=403)
+    
 
     # If the upload originated from a student's profile,
     # retrieve that student.
@@ -134,7 +132,7 @@ def my_documents(request):
     """
 
     if not request.user.is_student:
-        return HttpResponse("A student account is required to access this page.", status=403)
+        return render(request, "errors/403.html", status=403)
     
     student = request.user.student
 
@@ -165,10 +163,7 @@ def download_document(request, document_id):
         request.user.role == request.user.Role.STUDENT
         and document.student.user != request.user
     ):
-        return HttpResponse(
-            "You are not authorized to download this document.",
-            status=403,
-        )
+        return render(request, "errors/403.html", status=403)
     
     document_file = document.encrypted_file
     
@@ -217,7 +212,7 @@ def download_document(request, document_id):
 def preview_document(request, document_id):
 
     if not request.user.is_admin:
-        return HttpResponseForbidden("Only administrators can preview documents.")
+        return render(request, "errors/403.html", status=403)
 
     print(f"Requested ID: {document_id}")
 
@@ -251,9 +246,7 @@ def document_preview(request, document_id):
     """
 
     if not request.user.is_admin:
-        return HttpResponseForbidden(
-            "Only administrators can preview documents."
-        )
+        return render(request, "errors/403.html", status=403)
 
     document = get_object_or_404(Document, id=document_id)
 
@@ -279,7 +272,7 @@ def document_preview(request, document_id):
 @login_required
 def document_list(request):
     if not request.user.is_admin:
-        return HttpResponseForbidden(request, "This page is only accessible to administrators.")
+        return render(request, "errors/403.html", status=403)
 
     documents = Document.objects.select_related("student").all().order_by("student__admission_number")
 
@@ -306,6 +299,10 @@ def document_list(request):
 @login_required
 def document_detail(request, document_id):
 
+    if not request.user.is_admin:
+        return render(request, "errors/403.html", status=403)
+    
+
     document = get_object_or_404(Document, id=document_id)
 
     context = {
@@ -323,6 +320,9 @@ def document_detail(request, document_id):
 @login_required
 def edit_document(request, document_id):
 
+    if not request.user.is_admin:
+        return render(request, "errors/403.html", status=403)
+    
     document = get_object_or_404(Document, id=document_id)
 
     form = DocumentEditForm(

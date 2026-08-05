@@ -26,5 +26,12 @@ urlpatterns = [
     path('students/', include("student.urls")),
     path('notifications/', include("notifications.urls")),
 ]
+
+
+handler400 = "users.views.error_400"
+handler403 = "users.views.error_403"
+handler404 = "users.views.error_404"
+handler500 = "users.views.error_500"
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

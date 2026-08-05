@@ -1317,3 +1317,90 @@ textarea:focus{
         font-size: 13px;
     }
 }
+
+/* =====================================
+   ERROR PAGES
+===================================== */
+
+.error-page{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+    padding:80px 20px;
+
+    min-height:60vh;
+
+}
+
+.error-icon{
+
+    font-size:90px;
+
+    color:#dc3545;
+
+    margin-bottom:20px;
+
+}
+
+.error-code{
+
+    font-size:90px;
+
+    font-weight:700;
+
+    color:#0d6efd;
+
+    margin-bottom:10px;
+
+}
+
+.error-page h2{
+
+    margin-bottom:15px;
+
+    font-size:30px;
+
+}
+
+.error-page p{
+
+    color:#6c757d;
+
+    max-width:550px;
+
+    line-height:1.8;
+
+    margin-bottom:35px;
+
+}
+
+.error-actions{
+
+    display:flex;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+
+}
+.text-warning{
+    color:#f59e0b;
+}
+
+.text-danger{
+    color:#dc3545;
+}
+
+.text-info{
+    color:#0dcaf0;
+}

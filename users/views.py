@@ -24,6 +24,9 @@ def home(request):
 
 
 def register_student(request):
+
+    if not request.user.is_admin:
+        return render(request, "errors/403.html", status=403)
     
     form = StudentRegistrationForm(request.POST or None)
 
@@ -50,6 +53,7 @@ def register_student(request):
 
 
 def login_view(request):
+
     if request.user.is_authenticated:
         return redirect("dashboard")
     
@@ -122,8 +126,9 @@ def change_password(request):
 
 @login_required
 def dashboard(request):
+
     if request.user.is_admin:
-        
+
         total_students = Student.objects.count()
 
         active_students = Student.objects.filter(status=Student.Status.ACTIVE).count()
@@ -216,8 +221,9 @@ def dashboard(request):
 
 @login_required
 def toggle_student_status(request, student_id):
+
     if not request.user.is_admin:
-        return HttpResponseForbidden(request, "Only administrators can access this service.")
+        return render(request, "errors/403.html", status=403)
 
     student = get_object_or_404(Student, id=student_id)
 
@@ -247,3 +253,20 @@ def toggle_student_status(request, student_id):
 def logout_view(request):
     logout(request)
     return redirect("login")
+
+
+
+def error_400(request, exception):
+    return render(request, "errors/400.html", status=400)
+
+
+def error_403(request, exception):
+    return render(request, "errors/403.html", status=403)
+
+
+def error_404(request, exception):
+    return render(request, "errors/404.html", status=404)
+
+
+def error_500(request):
+    return render(request, "errors/500.html", status=500)
