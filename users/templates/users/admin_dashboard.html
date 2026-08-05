@@ -571,7 +571,7 @@ const ctx = document.getElementById("studentStatusChart");
 
 new Chart(ctx, {
 
-    type: "doughnut",
+    type: "pie",
 
     data: {
 
@@ -658,6 +658,10 @@ new Chart(
                 borderRadius: 4,
 
                 borderSkipped: false,
+                barThickness: 16,
+                maxBarThickness: 20,
+                categoryPercentage: 0.6,
+                barPercentage: 0.7,
 
             }]
 
@@ -732,6 +736,10 @@ new Chart(
                 borderRadius: 4,
 
                 borderSkipped: false,
+                barThickness: 16,
+                maxBarThickness: 20,
+                categoryPercentage: 0.6,
+                barPercentage: 0.7,
 
             }]
 
