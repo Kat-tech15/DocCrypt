@@ -14,6 +14,7 @@ from .forms import (
     StudentRegistrationForm,
 )
 from .services import AccountService
+from logs.services import AuditService
 import json
 from django.db.models import Count
 from django.db.models.functions import TruncMonth
@@ -48,6 +49,8 @@ def register_student(request):
 
         except ValidationError as e:
             form.add_error(None, e.message)
+
+    AuditService.register(request)
 
     return render(request, "users/register_student.html", {"form": form})
 
@@ -89,6 +92,8 @@ def login_view(request):
 
         form.add_error(None, "Invalid username or password.")
 
+        AuditService.login(request)
+
     return render(request, "users/login.html", {"form": form})
 
 
@@ -115,6 +120,9 @@ def change_password(request):
         )
 
         NotificationService.password_changed(request.user)
+
+        AuditService.password_changed(request)
+        
 
         login(request, request.user)
 
@@ -232,6 +240,7 @@ def toggle_student_status(request, student_id):
             student.status = Student.Status.DEACTIVATED
 
             NotificationService.account_deactivated(student)
+            AuditService.account_deactivated(request)
 
             messages.info(request, f"{student.full_name} has been deactivated.")
 
@@ -239,6 +248,7 @@ def toggle_student_status(request, student_id):
             student.status = Student.Status.ACTIVE
 
             NotificationService.account_activated(student)
+            AuditService.account_activated(request)
             
             messages.info(request, f"{student.full_name} has been activated.")
 
@@ -251,7 +261,11 @@ def toggle_student_status(request, student_id):
 @login_required
 @require_POST
 def logout_view(request):
+
+    AuditService.logout(request)
+    
     logout(request)
+
     return redirect("login")
 
 

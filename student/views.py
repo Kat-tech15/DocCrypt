@@ -7,6 +7,7 @@ from .forms import StudentUpdateForm
 from django.db.models import Q
 from django.core.paginator import Paginator
 from notifications.services import NotificationService
+from logs.services import AuditService
 
 @login_required
 def students_list(request):
@@ -56,7 +57,7 @@ def student_detail(request, student_id):
 
 @login_required
 def edit_student(request, student_id):
-    
+
     if not request.user.is_admin:
         return render(request, "errors/403.html", status=403)
 
@@ -75,5 +76,7 @@ def edit_student(request, student_id):
         form = StudentUpdateForm(instance=student)
 
     NotificationService.profile_updated(student)
+    AuditService.account_edited(student)
+
 
     return render(request, "students/edit_student.html", {"form": form, "student": student})

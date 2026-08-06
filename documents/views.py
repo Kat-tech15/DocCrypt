@@ -17,6 +17,7 @@ from student.models import Student
 import logging
 from notifications.services import NotificationService
 from django.urls import reverse
+from logs.services import AuditService
 
 logger = logging.getLogger(__name__)
 
@@ -93,6 +94,11 @@ def upload_document(request, student_id=None):
                     document,
                     request.user
                     )
+                
+                AuditService.document_uploaded(
+                    request, 
+                    document,
+                )
 
             messages.success(
                 request,
@@ -193,7 +199,8 @@ def download_document(request, document_id):
         response = HttpResponse(protected_pdf, content_type="application/pdf")
         response["Content-Disposition"] = (f'attachment; filename="{filename}"')
 
-        NotificationService.document_downloaded(document )
+        NotificationService.document_downloaded(document)
+        AuditService.document_downloaded(request, document)
 
         return response
 
@@ -224,10 +231,16 @@ def preview_document(request, document_id):
         document,
         document.student.admission_number,
     )
+    AuditService.document_previewed(
+            request,
+            document,
+        )
+    
     NotificationService.document_previewed(
         document,
         request.user,
     )
+    
 
     response = HttpResponse(
         pdf_data,
@@ -261,6 +274,11 @@ def document_preview(request, document_id):
     NotificationService.document_previewed(
         document,
         request.user,
+    )
+    AuditService.document_previewed(
+        request,
+        document, 
+     
     )
 
     return render(
@@ -338,6 +356,10 @@ def edit_document(request, document_id):
         form.save()
 
         NotificationService.document_updated(document)
+        AuditService.document_updated(
+            request, 
+            document,
+            )
 
         messages.info(request, "Document updated successfully.")
 

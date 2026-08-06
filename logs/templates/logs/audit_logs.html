@@ -1,0 +1,330 @@
+{% extends "users/base.html" %}
+
+{% block title %}
+Audit Logs
+{% endblock %}
+
+{% block content %}
+
+<!-- =====================================
+PAGE HEADER
+===================================== -->
+
+<div class="page-header">
+
+    <div>
+
+        <h1>
+            <i class="bi bi-clipboard-data"></i>
+            Audit Logs
+        </h1>
+
+        <p>
+            View and monitor all user activities performed within the system.
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================
+AUDIT STATISTICS
+===================================== -->
+
+<div class="dashboard-grid">
+
+    <!-- Total Logs -->
+    <div class="dashboard-card">
+
+        <div class="dashboard-card-header">
+
+            <div class="dashboard-icon students-icon">
+                <i class="bi bi-clipboard-data"></i>
+            </div>
+
+            <h1>{{ total_logs }}</h1>
+
+        </div>
+
+        <p class="dashboard-label">
+            Total Logs
+        </p>
+
+    </div>
+
+
+    <!-- Login Logs -->
+    <div class="dashboard-card">
+
+        <div class="dashboard-card-header">
+
+            <div class="dashboard-icon active-icon">
+                <i class="bi bi-box-arrow-in-right"></i>
+            </div>
+
+            <h1>{{ login_logs }}</h1>
+
+        </div>
+
+        <p class="dashboard-label">
+            Logins
+        </p>
+
+    </div>
+
+
+    <!-- Upload Logs -->
+    <div class="dashboard-card">
+
+        <div class="dashboard-card-header">
+
+            <div class="dashboard-icon document-icon">
+                <i class="bi bi-upload"></i>
+            </div>
+
+            <h1>{{ upload_logs }}</h1>
+
+        </div>
+
+        <p class="dashboard-label">
+            Uploads
+        </p>
+
+    </div>
+
+
+    <!-- Download Logs -->
+    <div class="dashboard-card">
+
+        <div class="dashboard-card-header">
+
+            <div class="dashboard-icon graduated-icon">
+                <i class="bi bi-download"></i>
+            </div>
+
+            <h1>{{ download_logs }}</h1>
+
+        </div>
+
+        <p class="dashboard-label">
+            Downloads
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================
+SEARCH & FILTER
+===================================== -->
+<div class="card">
+
+    <div class="page-header">
+
+        <h2 class="card-title">
+
+            <i class="bi bi-funnel-fill"></i>
+
+            Filter Audit Logs
+
+        </h2>
+
+    </div>
+
+    <div class="audit-search-wrapper">
+
+        <form method="get" class="audit-search-form">
+
+            <div class="search-group">
+
+                <i class="bi bi-search"></i>
+
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search by user, action or description..."
+                    value="{{ search }}"
+                >
+
+            </div>
+
+            <select name="action">
+
+                <option value="">All Actions</option>
+
+                {% for value, label in actions %}
+
+                    <option value="{{ value }}"
+                        {% if selected_action == value %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ label }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+            <button class="btn btn-primary">
+
+                <i class="bi bi-search"></i>
+
+                Search
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================
+AUDIT TABLE
+===================================== -->
+
+<div class="card">
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Date</th>
+                <th>User</th>
+                <th>Action</th>
+                <th>Description</th>
+                <th>IP Address</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for log in page_obj %}
+
+            <tr>
+
+                <td>
+                    {{ log.created_at|date:"d M Y H:i" }}
+                </td>
+
+                <td>
+                    {{ log.user.username }}
+                </td>
+
+                <td>
+
+                    {% if log.action == "LOGIN" %}
+                        <span class="badge badge-success">
+
+                    {% elif log.action == "LOGOUT" %}
+                        <span class="badge badge-secondary">
+
+                    {% elif log.action == "UPLOAD" %}
+                        <span class="badge badge-primary">
+
+                    {% elif log.action == "DOWNLOAD" %}
+                        <span class="badge badge-info">
+
+                    {% elif log.action == "UPDATE" %}
+                        <span class="badge badge-warning">
+
+                    {% elif log.action == "DELETE" %}
+                        <span class="badge badge-danger">
+
+                    {% else %}
+                        <span class="badge badge-secondary">
+
+                    {% endif %}
+
+                        {{ log.get_action_display }}
+
+                    </span>
+
+                </td>
+
+                <td>
+                    {{ log.description }}
+                </td>
+
+                <td>
+                    {{ log.ip_address }}
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="5" class="table-empty">
+
+                    <i class="bi bi-folder2-open"></i>
+
+                    No audit logs found.
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<!-- =====================================
+PAGINATION
+===================================== -->
+
+<div class="pagination">
+
+    {% if page_obj.has_previous %}
+
+        <a href="?page={{ page_obj.previous_page_number }}">
+
+            <i class="bi bi-chevron-left"></i>
+
+            Previous
+
+        </a>
+
+    {% endif %}
+
+    <span>
+
+        Page
+
+        <strong>{{ page_obj.number }}</strong>
+
+        of
+
+        <strong>{{ page_obj.paginator.num_pages }}</strong>
+
+    </span>
+
+    {% if page_obj.has_next %}
+
+        <a href="?page={{ page_obj.next_page_number }}">
+
+            Next
+
+            <i class="bi bi-chevron-right"></i>
+
+        </a>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
