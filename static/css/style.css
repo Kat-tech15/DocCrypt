@@ -321,6 +321,10 @@ tr:hover{
     background:#2e7d32;
 }
 
+.badge-info, .badge-primary{
+    background: #1976d2;
+}
+
 .badge-warning{
     background:#f9a825;
 }
@@ -1447,7 +1451,7 @@ textarea:focus{
 
 .audit-search-wrapper{
 
-    width:100%;
+    width:50%;
     display:flex;
     justify-content:center;
 

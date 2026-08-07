@@ -81,6 +81,8 @@ def login_view(request):
                 return redirect("login")
             
             login(request, user)
+            
+            AuditService.login(request)
 
             if user.is_student and user.must_change_password:
                 return redirect("change_password")
@@ -92,7 +94,6 @@ def login_view(request):
 
         form.add_error(None, "Invalid username or password.")
 
-        AuditService.login(request)
 
     return render(request, "users/login.html", {"form": form})
 

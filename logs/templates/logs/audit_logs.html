@@ -130,6 +130,20 @@ SEARCH & FILTER
             Filter Audit Logs
 
         </h2>
+         <a
+            href="{% url 'export_audit_logs' %}?search={{ search|urlencode }}&action={{ selected_action|urlencode }}"
+            class="btn btn-success"
+        >
+            <i class="bi bi-filetype-csv"></i>
+            Export CSV
+        </a>
+        <a
+            href="{% url 'export_audit_logs_pdf' %}?search={{ search|urlencode }}&action={{ selected_action|urlencode }}"
+            class="btn btn-danger"
+        >
+            <i class="bi bi-file-earmark-pdf-fill"></i>
+            Export PDF
+        </a>
 
     </div>
 
@@ -228,10 +242,10 @@ AUDIT TABLE
                         <span class="badge badge-secondary">
 
                     {% elif log.action == "UPLOAD" %}
-                        <span class="badge badge-primary">
+                        <span class="badge badge-info">
 
                     {% elif log.action == "DOWNLOAD" %}
-                        <span class="badge badge-info">
+                        <span class="badge badge-primary">
 
                     {% elif log.action == "UPDATE" %}
                         <span class="badge badge-warning">
@@ -291,13 +305,13 @@ PAGINATION
 
     {% if page_obj.has_previous %}
 
-        <a href="?page={{ page_obj.previous_page_number }}">
+    <a href="?page={{ page_obj.previous_page_number }}{% if search %}&search={{ search|urlencode }}{% endif %}{% if selected_action %}&action={{ selected_action|urlencode }}{% endif %}">
 
-            <i class="bi bi-chevron-left"></i>
+        <i class="bi bi-chevron-left"></i>
 
-            Previous
+        Previous
 
-        </a>
+    </a>
 
     {% endif %}
 
@@ -315,13 +329,13 @@ PAGINATION
 
     {% if page_obj.has_next %}
 
-        <a href="?page={{ page_obj.next_page_number }}">
+    <a href="?page={{ page_obj.next_page_number }}{% if search %}&search={{ search|urlencode }}{% endif %}{% if selected_action %}&action={{ selected_action|urlencode }}{% endif %}">
 
-            Next
+        Next
 
-            <i class="bi bi-chevron-right"></i>
+        <i class="bi bi-chevron-right"></i>
 
-        </a>
+    </a>
 
     {% endif %}
 

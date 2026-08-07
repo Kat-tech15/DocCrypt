@@ -24,7 +24,7 @@ class AuditService:
             request=request,
             user=request.user,
             action=AuditLog.Action.REGISTER,
-            description="Student registered.",
+            description=f"Registered {request.get_user.admission_number}.",
         )
 
     @staticmethod
@@ -54,7 +54,7 @@ class AuditService:
             request=request,
             user=request.user,
             action=AuditLog.Action.ACCOUNT_ACTIVATED,
-            description="Account activated.",
+            description=f"Activated account for {request.user.admission_number}",
         )
 
     @staticmethod
@@ -64,7 +64,7 @@ class AuditService:
             request=request,
             user=request.user,
             action=AuditLog.Action.ACCOUNT_EDITED,
-            description="Edited profile for {student}.",
+            description=f"Edited profile for {request.user.admission_number}.",
         )
 
     @staticmethod
@@ -74,7 +74,7 @@ class AuditService:
             request=request,
             user=request.user,
             action=AuditLog.Action.ACCOUNT_DEACTIVATED,
-            description="Account deactivated.",
+            description=f"Deactivated account for {request.user.admission_number}",
         )
 
     @staticmethod
@@ -97,7 +97,7 @@ class AuditService:
             request=request, 
             user=request.user,
             action=AuditLog.Action.UPDATE,
-            description=("Updated document '{document.title}'.")
+            description=f'Updated document "{document.title}" for {document.student.admission_number}.'
         )
 
     @staticmethod
@@ -108,8 +108,7 @@ class AuditService:
             user=request.user,
             action=AuditLog.Action.PREVIEW,
             description=(
-                f'Previewed "{document.title}"'
-                f'for {document.student.admission_number}.'
+                f'Previewed "{document.title}" for {document.student.admission_number}'
             ),
         )
 
