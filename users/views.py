@@ -36,12 +36,15 @@ def register_student(request):
             result = AccountService.create_student_account(
                 form.cleaned_data
             )
+            student = result["student"]
+
+            AuditService.register(request, student)
 
             return render(
                 request,
                 "users/account_created.html",
                 {
-                    "student": result["student"],
+                    "student": student,
                     "user": result["user"],
                     "temporary_password": result["temporary_password"],
                 },
@@ -50,7 +53,6 @@ def register_student(request):
         except ValidationError as e:
             form.add_error(None, e.message)
 
-    AuditService.register(request)
 
     return render(request, "users/register_student.html", {"form": form})
 
@@ -241,7 +243,7 @@ def toggle_student_status(request, student_id):
             student.status = Student.Status.DEACTIVATED
 
             NotificationService.account_deactivated(student)
-            AuditService.account_deactivated(request)
+            AuditService.account_deactivated(request, student)
 
             messages.info(request, f"{student.full_name} has been deactivated.")
 
@@ -249,7 +251,7 @@ def toggle_student_status(request, student_id):
             student.status = Student.Status.ACTIVE
 
             NotificationService.account_activated(student)
-            AuditService.account_activated(request)
+            AuditService.account_activated(request, student)
             
             messages.info(request, f"{student.full_name} has been activated.")
 

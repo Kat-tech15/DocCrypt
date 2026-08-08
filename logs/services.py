@@ -18,13 +18,13 @@ class AuditService:
         )
 
     @staticmethod
-    def register(request):
+    def register(request, student):
 
         AuditService.log(
             request=request,
             user=request.user,
             action=AuditLog.Action.REGISTER,
-            description=f"Registered {request.get_user.admission_number}.",
+            description=f"Registered student {student.admission_number}.",
         )
 
     @staticmethod
@@ -48,33 +48,33 @@ class AuditService:
         )
 
     @staticmethod
-    def account_activated(request):
+    def account_activated(request, student):
 
         AuditService.log(
             request=request,
             user=request.user,
             action=AuditLog.Action.ACCOUNT_ACTIVATED,
-            description=f"Activated account for {request.user.admission_number}",
+            description=f"Activated account for {student.admission_number}",
         )
 
     @staticmethod
-    def account_edited(request):
+    def account_edited(request, student):
 
         AuditService.log(
             request=request,
             user=request.user,
             action=AuditLog.Action.ACCOUNT_EDITED,
-            description=f"Edited profile for {request.user.admission_number}.",
+            description=f"Edited profile for {student.admission_number}.",
         )
 
     @staticmethod
-    def account_deactivated(request):
+    def account_deactivated(request, student):
 
         AuditService.log(
             request=request,
             user=request.user,
             action=AuditLog.Action.ACCOUNT_DEACTIVATED,
-            description=f"Deactivated account for {request.user.admission_number}",
+            description=f"Deactivated account for {student.admission_number}",
         )
 
     @staticmethod
@@ -85,8 +85,8 @@ class AuditService:
             user=request.user,
             action=AuditLog.Action.UPLOAD,
             description=(
-                f'Uploaded "{document.title}"'
-                f'for {document.student.admission_number}.'
+                f'Uploaded "{document.title}" '
+                f'for student {document.student.admission_number}.'
             ),
         )
 
@@ -97,7 +97,9 @@ class AuditService:
             request=request, 
             user=request.user,
             action=AuditLog.Action.UPDATE,
-            description=f'Updated document "{document.title}" for {document.student.admission_number}.'
+            description=(f'Updated document "{document.title}" '
+                        f'for student {document.student.admission_number}.'
+            ),
         )
 
     @staticmethod
@@ -108,7 +110,8 @@ class AuditService:
             user=request.user,
             action=AuditLog.Action.PREVIEW,
             description=(
-                f'Previewed "{document.title}" for {document.student.admission_number}'
+                f'Previewed "{document.title}" '
+                f'for student {document.student.admission_number}'
             ),
         )
 
@@ -120,7 +123,7 @@ class AuditService:
             user=request.user,
             action=AuditLog.Action.DOWNLOAD,
             description=(
-                f'Downloaded "{document.title}".'
+                f'Downloaded document "{document.title}".'
             ),
         )
 
@@ -131,7 +134,7 @@ class AuditService:
             request=request,
             user=request.user,
             action=AuditLog.Action.PASSWORD_CHANGE,
-            description="Passord changed.",
+            description="Changed account password.",
         )
 
     @staticmethod
@@ -141,7 +144,7 @@ class AuditService:
             request=request,
             user=request.user,
             action=AuditLog.Action.PASSWORD_RESET,
-            description="Password reset.",
+            description="Reset account password.",
         )
 
     

@@ -271,16 +271,6 @@ def document_preview(request, document_id):
         ),
     }
 
-    NotificationService.document_previewed(
-        document,
-        request.user,
-    )
-    AuditService.document_previewed(
-        request,
-        document, 
-     
-    )
-
     return render(
         request,
         "documents/document_preview.html",

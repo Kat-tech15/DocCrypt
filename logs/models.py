@@ -11,7 +11,7 @@ class AuditLog(models.Model):
         
         CREATE = "CREATE", "Create"
         UPDATE = "UPDATE", "Update"
-        DELETE = "DELETE", "Update"
+        DELETE = "DELETE", "Delete"
 
         UPLOAD = "UPLOAD", "Upload"
         DOWNLOAD = "DOWNLOAD", "Download"

@@ -68,6 +68,11 @@ def edit_student(request, student_id):
 
         if form.is_valid():
             form.save()
+
+            NotificationService.profile_updated(student)
+
+            AuditService.account_edited(request, student)
+
             messages.info(request, "Student information updated successfully.")
 
             return redirect("student_detail", student_id=student.id)
@@ -75,8 +80,7 @@ def edit_student(request, student_id):
     else:
         form = StudentUpdateForm(instance=student)
 
-    NotificationService.profile_updated(student)
-    AuditService.account_edited(student)
+    
 
 
     return render(request, "students/edit_student.html", {"form": form, "student": student})
