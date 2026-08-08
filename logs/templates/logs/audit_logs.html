@@ -116,81 +116,104 @@ AUDIT STATISTICS
 </div>
 
 
-<!-- =====================================
-SEARCH & FILTER
-===================================== -->
-<div class="card">
+<!-- Audit Log Controls -->
+<div class="card audit-controls-card">
 
-    <div class="page-header">
+    <div class="audit-controls">
 
-        <h2 class="card-title">
+        <!-- Left: Search and Filter -->
+        <div class="audit-filter-section">
 
-            <i class="bi bi-funnel-fill"></i>
+            <div class="audit-filter-title">
 
-            Filter Audit Logs
+                <i class="bi bi-funnel-fill"></i>
 
-        </h2>
-         <a
-            href="{% url 'export_audit_logs' %}?search={{ search|urlencode }}&action={{ selected_action|urlencode }}"
-            class="btn btn-success"
-        >
-            <i class="bi bi-filetype-csv"></i>
-            Export CSV
-        </a>
-        <a
-            href="{% url 'export_audit_logs_pdf' %}?search={{ search|urlencode }}&action={{ selected_action|urlencode }}"
-            class="btn btn-danger"
-        >
-            <i class="bi bi-file-earmark-pdf-fill"></i>
-            Export PDF
-        </a>
-
-    </div>
-
-    <div class="audit-search-wrapper">
-
-        <form method="get" class="audit-search-form">
-
-            <div class="search-group">
-
-                <i class="bi bi-search"></i>
-
-                <input
-                    type="text"
-                    name="search"
-                    placeholder="Search by user, action or description..."
-                    value="{{ search }}"
-                >
+                <span>Filter Audit Logs</span>
 
             </div>
 
-            <select name="action">
+            <form method="get" class="audit-search-form">
 
-                <option value="">All Actions</option>
+                <div class="search-group">
 
-                {% for value, label in actions %}
+                    <i class="bi bi-search"></i>
 
-                    <option value="{{ value }}"
-                        {% if selected_action == value %}
-                            selected
-                        {% endif %}
+                    <input
+                        type="text"
+                        name="search"
+                        placeholder="Search by user, action or description..."
+                        value="{{ search }}"
                     >
-                        {{ label }}
+
+                </div>
+
+                <select name="action">
+
+                    <option value="">
+                        All Actions
                     </option>
 
-                {% endfor %}
+                    {% for value, label in actions %}
 
-            </select>
+                        <option
+                            value="{{ value }}"
+                            {% if selected_action == value %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ label }}
+                        </option>
 
-            <button class="btn btn-primary">
+                    {% endfor %}
 
-                <i class="bi bi-search"></i>
+                </select>
 
-                Search
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
 
-            </button>
+                    <i class="bi bi-search"></i>
 
-        </form>
+                    Search
+
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- Right: Export Buttons -->
+        <div class="audit-export-section">
+
+            <span class="audit-export-label">
+                Export:
+            </span>
+
+            <a
+                href="{% url 'export_audit_logs' %}?search={{ search|urlencode }}&action={{ selected_action|urlencode }}"
+                class="btn btn-success"
+            >
+
+                <i class="bi bi-filetype-csv"></i>
+
+                CSV
+
+            </a>
+
+            <a
+                href="{% url 'export_audit_logs_pdf' %}?search={{ search|urlencode }}&action={{ selected_action|urlencode }}"
+                class="btn btn-danger"
+            >
+
+                <i class="bi bi-file-earmark-pdf-fill"></i>
+
+                PDF
+
+            </a>
+
+        </div>
 
     </div>
 
