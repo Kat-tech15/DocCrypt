@@ -231,7 +231,7 @@ AUDIT TABLE
         <thead>
 
             <tr>
-
+                <th>No.</th>
                 <th>Date</th>
                 <th>User</th>
                 <th>Action</th>
@@ -247,7 +247,9 @@ AUDIT TABLE
             {% for log in page_obj %}
 
             <tr>
-
+                <td>
+                    {{ page_obj.start_index|add:forloop.counter0 }}
+                </td>
                 <td>
                     {{ log.created_at|date:"d M Y H:i" }}
                 </td>

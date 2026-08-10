@@ -5,7 +5,7 @@ class AuditDescription:
     LOGIN = "User logged into the system."
     LOGOUT = "User logged out."
 
-    STUDENT_REGISTERED = "Registered student '{student}'"
+    STUDENT_REGISTERED = "Registered student '{student}'."
 
     DOCUMENT_UPLOADED = "Uploaded '{document}' for '{student}'."
 
