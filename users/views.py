@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.views.decorators.http import require_POST
 from django.shortcuts import redirect, render, get_object_or_404
-from django.http import HttpResponseForbidden
+from .models import AccountActivationToken
 from documents.models import Document
 from student.models import Student
 from django.contrib import messages
@@ -13,11 +13,15 @@ from .forms import (
     LoginForm,
     StudentRegistrationForm,
 )
+from datetime import timedelta
+from django.conf import settings 
+from django.utils import timezone
 from .services import AccountService
 from logs.services import AuditService
 import json
 from django.db.models import Count
 from django.db.models.functions import TruncMonth
+from .email_services import AccountEmailService
 
 
 def home(request):
@@ -37,17 +41,15 @@ def register_student(request):
                 form.cleaned_data
             )
             student = result["student"]
+            user = result["user"]
+            activation_token = result["activation_token"]
 
             AuditService.register(request, student)
+            AccountEmailService.send_activation_email(request, user, activation_token)
 
-            return render(
-                request,
-                "users/account_created.html",
-                {
-                    "student": student,
-                    "user": result["user"],
-                    "temporary_password": result["temporary_password"],
-                },
+            messages.success(
+                request, 
+                f"student account for {student.admission_number} has been created successfully. An activation email has been sent successfully."
             )
 
         except ValidationError as e:
@@ -86,8 +88,8 @@ def login_view(request):
             
             AuditService.login(request)
 
-            if user.is_student and user.must_change_password:
-                return redirect("change_password")
+            #if user.is_student and user.must_change_password:
+                #return redirect("change_password")
 
             if next_url:
                 return redirect(next_url)
@@ -102,8 +104,8 @@ def login_view(request):
 
 @login_required
 def change_password(request):
-    if  not request.user.must_change_password:
-        return redirect("dashboard")
+    #if  not request.user.must_change_password:
+        #return redirect("dashboard")
 
     form = ChangePasswordForm(request.POST or None)
 
@@ -271,8 +273,118 @@ def logout_view(request):
 
     return redirect("login")
 
+def activation_account(request, token):
 
+    try:
+        activation_token = get_object_or_404(
+            AccountActivationToken,
+            token=token
+        )
+    except AccountActivationToken.DoesNotExist:
+        return render(
+            request, "users/activation_invlaid.html",
+            {
+                "message": (
+                    "This activation link is invalid or no longer available. "
+                    "Please contact the system administrator to request anew activation link."
+                )
+            },
+        )
 
+    if activation_token.used:
+        return render(
+            request,
+            "users/activation_invalid.html",
+            {
+                "message": (
+                    "This activation link has already been used."
+                )
+            },
+        )
+
+    expiration_time = (
+        activation_token.created_at
+        + timedelta(
+            hours=settings.ACCOUNT_ACTIVATION_TIMEOUT_HOURS
+        )
+    )
+
+    if timezone.now() > expiration_time:
+        return render(
+            request,
+            "users/activation_invalid.html",
+            {
+                "message": (
+                    "This activation link has expired. "
+                    "Please contact the system administrator "
+                    "to request a new activation link."
+                )
+            },
+        )
+
+    user = activation_token.user
+
+    if not user.must_change_password:
+        return render(
+            request,
+            "users/activation_invalid.html",
+            {
+                "message": (
+                    "This account has already been activated."
+                )
+            },
+        )
+
+    if request.method == "POST":
+
+        form = ChangePasswordForm(request.POST)
+
+        if form.is_valid():
+
+            user.set_password(
+                form.cleaned_data["new_password"]
+            )
+
+            user.must_change_password = False
+
+            user.save(
+                update_fields=[
+                    "password",
+                    "must_change_password",
+                ]
+            )
+
+            # Mark the activation token as used
+            activation_token.used = True
+            activation_token.save(
+                update_fields=["used"]
+            )
+
+            login(request, user)
+
+            AuditService.password_changed(request)
+
+            messages.success(
+                request,
+                "Your account has been activated successfully. "
+                "You can now access DocCrypt."
+            )
+
+            return redirect("dashboard")
+
+    else:
+        form = ChangePasswordForm()
+
+    return render(
+        request,
+        "users/activate_account.html",
+        {
+            "form": form,
+            "user": user,
+            "activation_token": activation_token,
+        },
+    )
+    
 def error_400(request, exception):
     return render(request, "errors/400.html", status=400)
 

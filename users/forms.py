@@ -99,7 +99,7 @@ class StudentRegistrationForm(forms.Form):
 class LoginForm(forms.Form):
     username = forms.CharField(
         max_length=150,
-        label="Admission Number",
+        label="Username",
         widget=forms.TextInput(
             attrs={
                 **FORM_CONTROL,
@@ -125,7 +125,7 @@ class ChangePasswordForm(forms.Form):
         widget=forms.PasswordInput(
             attrs={
                 **FORM_CONTROL,
-                "placeholder": "Enter your new password",
+                "placeholder": "********",
             }
         ),
     )
@@ -135,7 +135,7 @@ class ChangePasswordForm(forms.Form):
         widget=forms.PasswordInput(
             attrs={
                 **FORM_CONTROL,
-                "placeholder": "Confirm your new password",
+                "placeholder": "*******",
             }
         ),
     )

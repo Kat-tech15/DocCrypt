@@ -46,21 +46,22 @@ Student Status
 
         {% csrf_token %}
 
-        <div class="confirmation-actions">
+        <div class="form-actions">
 
-            <a href="{% url 'student_detail' student.id %}" class="btn btn-secondary">Cancel</a>
+            <a href="{% url 'student_detail' student.id %}" class="btn btn-secondary btn-edit">Cancel</a>
 
             {% if student.status == student.Status.ACTIVE %}
 
-                <button type="submit" class="btn btn-danger">Deactivate</button>
+                <button type="submit" class="btn btn-danger btn-edit">Deactivate</button>
 
             {% else %}
 
-                <button type="submit" class="btn btn-success">Activate</button>
+                <button type="submit" class="btn btn-success btn-edit">Activate</button>
 
             {% endif %}
 
         </div>
+      
 
     </form>
 

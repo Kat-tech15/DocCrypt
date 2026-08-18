@@ -1,8 +1,7 @@
-
 {% extends "users/base.html" %}
 
 {% block title %}
-Login
+Activate Account
 {% endblock %}
 
 {% block content %}
@@ -13,12 +12,13 @@ Login
 
         <div class="auth-header">
 
-            <i class="bi bi-shield-lock-fill auth-logo"></i>
+            <i class="bi bi-person-check-fill auth-logo"></i>
 
-            <h2>Welcome Back</h2>
+            <h2>Activate Your Account</h2>
 
             <p>
-                Sign in to access DocCrypt.
+                Welcome, {{ user.first_name }}.
+                Create a secure password to activate your DocCrypt account.
             </p>
 
         </div>
@@ -36,11 +36,8 @@ Login
                     {% for error in form.non_field_errors %}
 
                         <p>
-
                             <i class="bi bi-exclamation-triangle-fill"></i>
-
                             {{ error }}
-
                         </p>
 
                     {% endfor %}
@@ -49,54 +46,28 @@ Login
 
             {% endif %}
 
-            <!-- Admission Number -->
+
+            <!-- New Password -->
 
             <div class="form-group">
 
-                <label for="{{ form.username.id_for_label }}">
-
-                    <i class="bi bi-person-badge-fill"></i>
-
-                    {{ form.username.label }}
-
-                </label>
-
-                {{ form.username }}
-
-                {% for error in form.username.errors %}
-
-                    <small class="field-error">
-
-                        <i class="bi bi-exclamation-circle-fill"></i>
-
-                        {{ error }}
-
-                    </small>
-
-                {% endfor %}
-
-            </div>
-
-            <!-- Password -->
-
-            <div class="form-group">
-
-                <label for="{{ form.password.id_for_label }}">
+                <label for="{{ form.new_password.id_for_label }}">
 
                     <i class="bi bi-lock-fill"></i>
 
-                    {{ form.password.label }}
+                    {{ form.new_password.label }}
 
                 </label>
 
                 <div class="password-wrapper">
 
-                    {{ form.password }}
+                    {{ form.new_password }}
 
                     <button
                         type="button"
                         class="password-toggle"
-                        onclick="togglePassword(this)">
+                        onclick="togglePassword(this)"
+                        aria-label="Show or hide password">
 
                         <i class="bi bi-eye"></i>
 
@@ -104,7 +75,7 @@ Login
 
                 </div>
 
-                {% for error in form.password.errors %}
+                {% for error in form.new_password.errors %}
 
                     <small class="field-error">
 
@@ -118,15 +89,61 @@ Login
 
             </div>
 
+
+            <!-- Confirm Password -->
+
+            <div class="form-group">
+
+                <label for="{{ form.confirm_password.id_for_label }}">
+
+                    <i class="bi bi-shield-lock-fill"></i>
+
+                    {{ form.confirm_password.label }}
+
+                </label>
+
+                <div class="password-wrapper">
+
+                    {{ form.confirm_password }}
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword(this)"
+                        aria-label="Show or hide password">
+
+                        <i class="bi bi-eye"></i>
+
+                    </button>
+
+                </div>
+
+                {% for error in form.confirm_password.errors %}
+
+                    <small class="field-error">
+
+                        <i class="bi bi-exclamation-circle-fill"></i>
+
+                        {{ error }}
+
+                    </small>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Submit -->
+
             <div class="form-actions">
 
                 <button
                     type="submit"
-                    class="btn btn-primary btn-auth">
+                    class="btn btn-primary btn-block">
 
-                    <i class="bi bi-box-arrow-in-right"></i>
+                    <i class="bi bi-person-check-fill"></i>
 
-                    Login
+                    Activate Account
 
                 </button>
 
@@ -138,22 +155,25 @@ Login
 
 </div>
 
+
 <script>
 
-function togglePassword(button){
+function togglePassword(button) {
 
     const input = button.previousElementSibling;
     const icon = button.querySelector("i");
 
-    if(input.type === "password"){
+    if (input.type === "password") {
 
         input.type = "text";
+
         icon.classList.remove("bi-eye");
         icon.classList.add("bi-eye-slash");
 
-    }else{
+    } else {
 
         input.type = "password";
+
         icon.classList.remove("bi-eye-slash");
         icon.classList.add("bi-eye");
 
@@ -164,4 +184,3 @@ function togglePassword(button){
 </script>
 
 {% endblock %}
-

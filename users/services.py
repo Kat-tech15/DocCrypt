@@ -2,7 +2,7 @@ from django.db import transaction
 from django.utils.crypto import get_random_string
 from django.core.exceptions import ValidationError
 
-from .models import CustomUser
+from .models import CustomUser, AccountActivationToken
 from student.models import Student
 
 
@@ -88,8 +88,11 @@ class AccountService:
             year_of_study=year_of_study,
         )
 
+        # Create account activation token       
+        activation_token = AccountActivationToken.objects.create(user=user)
+
         return {
             "user": user,
             "student": student,
-            "temporary_password": temporary_password,
+            "activation_token": activation_token,
         }

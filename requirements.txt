@@ -1,11 +1,9 @@
 asgiref==3.11.1
 cffi==2.1.0
-charset-normalizer==3.4.7
 cryptography==49.0.0
-Django==6.0.7
-pillow==12.3.0
+Django==5.2.16
+djangorestframework==3.17.1
 pycparser==3.0
-pypdf==6.14.2
-reportlab==5.0.0
+python-dotenv==1.2.2
 sqlparse==0.5.5
-tzdata==2026.3
+tzdata==2026.2

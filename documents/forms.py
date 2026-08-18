@@ -37,7 +37,7 @@ class DocumentUploadForm(forms.ModelForm):
             raise forms.ValidationError(
                 "Please upload a valid PDF document."
             )
-
+ 
         if file.size > self.MAX_FILE_SIZE:
             raise forms.ValidationError(
                 "Files must not exceed 10 MB."

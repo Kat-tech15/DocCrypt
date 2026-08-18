@@ -9,4 +9,5 @@ urlpatterns = [
     path("dashboard/", views.dashboard, name="dashboard"),
     path("students/<int:student_id>/deactivate", views.toggle_student_status, name="toggle_student_status"),
     path("logout/", views.logout_view, name="logout"),
+    path("activate/<uuid:token>/", views.activation_account, name="activation_account"),
 ]
